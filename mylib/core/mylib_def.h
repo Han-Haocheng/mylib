@@ -28,8 +28,9 @@ using float32 = float;
 using float64 = double;
 using CString = const char *;
 
+
 using tid_t = uint32;// 线程id类型
-using cid_t = uint32;//协程id类型
+using cid_t = uint;  //协程id类型
 using size_t = uint64;
 using weight_t = float32;
 
