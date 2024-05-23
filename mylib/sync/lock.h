@@ -6,8 +6,23 @@
 #define MYPROJECT_LOCK_H
 
 #include "../core/mylib_def.h"
+#if _WIN32 == 1
+#include <Windows.h>
+#elif linux
+
+#endif// _WIN32
 
 MYLIB_SPACE_BEGIN
+
+#if _WIN32 == 1
+using mutex_t = HANDLE;
+using rwlock_t = SRWLOCK;
+using spinlock_t = KSPIN_LOCK;
+#elif linux
+using mutex_t = pthread_mutex_t;
+using rwlock_t = pthread_rwlock_t;
+using spinlock_t = pthread_spinlock_t;
+#endif// _WIN32 == 1
 
 // 特化模板，当T有wr()函数时返回true
 template<typename T>
@@ -15,9 +30,9 @@ struct check_is_rwlock {
   template<typename>
   using void_t = void;
 
-  template<typename U, typename = decltype(&U::wrlock)>
+  template<typename U, typename = decltype(&U::wlock)>
   constexpr static bool check_wrlock(int) { return true; }
-  template<typename U, typename = decltype(&U::rdlock)>
+  template<typename U, typename = decltype(&U::rlock)>
   constexpr static bool check_rdlock(int) { return true; }
 
   template<typename U>
@@ -63,30 +78,35 @@ private:
 template<class T>
 class ScopedGround<T, typename std::enable_if<check_is_rwlock<T>::value>::type> {
 public:
-  inline explicit ScopedGround(T &lock) : m_lock(lock) { m_lock.rdlock(); }
+  inline explicit ScopedGround(T &lock) : m_lock(lock) { m_lock.rlock(); }
   inline ~ScopedGround() { m_lock.unlock(); }
-  inline void wrlock() { m_lock.wrlock(); }
-  inline void rdlock() { m_lock.rdlock(); }
+  inline void wlock() { m_lock.wlock(); }
+  inline void rlock() { m_lock.rlock(); }
   inline void unlock() { m_lock.unlock(); }
 
 private:
   T m_lock;
 };
 
-class Nulllock {
+class Lock {
 public:
-  using Ground = ScopedGround<Nulllock>;
+  virtual inline void lock() = 0;
+  virtual inline void unlock() = 0;
+};
 
-  Nulllock() = default;
-  ~Nulllock() = default;
-  virtual inline void lock() {}
-  virtual inline void unlock() {}
+class NullLock : public Lock {
+public:
+  using Ground = ScopedGround<NullLock>;
+  NullLock() = default;
+  ~NullLock() = default;
+  inline void lock() final {}
+  inline void unlock() final {}
 };
 
 /**
  * @brief 互斥锁
  */
-class Mutex : Nulllock {
+class Mutex : Lock {
 public:
   using Ground = ScopedGround<Mutex>;
 
@@ -96,10 +116,10 @@ public:
   void unlock() final;
 
 private:
-  pthread_mutex_t m_mutex;
+  mutex_t m_mutex;
 };
 
-class Spinlock : Nulllock {
+class Spinlock : Lock {
 public:
   using Ground = ScopedGround<Spinlock>;
 
@@ -109,13 +129,13 @@ public:
   void unlock() final;
 
 private:
-  pthread_spinlock_t m_spinlock;
+  spinlock_t m_spinlock;
 };
 
 /**
  * @brief 原子锁
  */
-class CASLock : Nulllock {
+class CASLock : Lock {
 public:
   using Ground = ScopedGround<CASLock>;
 
@@ -128,35 +148,47 @@ private:
   volatile std::atomic_flag m_atomic_flag;
 };
 
-class RWNulllock {
+class RWLockInf {
 public:
-  using Ground = ScopedGround<RWNulllock>;
+  enum status_t
+  {
+    RWLS_IDLE = 0x01,
+    RWLS_READ = 0x02,
+    RWLS_WRITE = 0x04,
+  };
+  RWLockInf() : m_state(RWLS_IDLE), m_lock_count(0) {}
+  virtual void rlock() = 0;
+  virtual void wlock() = 0;
+  virtual void unlock() = 0;
+  uint32 lock_count() const { return m_lock_count; };
 
-  RWNulllock() = default;
-
-  ~RWNulllock() = default;
-
-  virtual inline void rdlock() {}
-  virtual inline void wrlock() {}
-  virtual inline void unlock() {}
+protected:
+  status_t m_state;
+  uint32 m_lock_count;
 };
 
-class RWLock : RWNulllock {
+class RWNullLock : public RWLockInf {
+public:
+  using Ground = ScopedGround<RWNullLock>;
+  RWNullLock() = default;
+  ~RWNullLock() = default;
+  inline void rlock() final { m_state = RWLS_READ; }
+  inline void wlock() final { m_state = RWLS_WRITE; }
+  inline void unlock() final { m_state = RWLS_IDLE; }
+};
+
+class RWLock : public RWLockInf {
 public:
   using Ground = ScopedGround<RWLock>;
 
   RWLock();
-
   ~RWLock();
-
-  void rdlock() final;
-
-  void wrlock() final;
-
+  void rlock() final;
+  void wlock() final;
   void unlock() final;
 
 private:
-  pthread_rwlock_t m_rwlock;
+  rwlock_t m_rwlock;
 };
 
 MYLIB_SPACE_END

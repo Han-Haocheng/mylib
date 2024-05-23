@@ -14,4 +14,89 @@
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="concurrent\lock.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="concurrent\semaphore.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="concurrent\thread.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="config\config.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="log\log.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="untils\until.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sync\lock.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sync\semaphore.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sync\thread.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="container\list.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="container\iterator.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="concurrent\lock.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="concurrent\semaphore.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="concurrent\thread.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="config\config.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="converter\converter.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="converter\ymal_converter.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="core\mylib_def.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\log.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="untils\until.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="untils\_until_uplow_base.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sync\lock.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sync\semaphore.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sync\thread.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="container\list.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="container\iterator.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
 </Project>
