@@ -2,7 +2,6 @@
 
 #include "mylib_def.h"
 #include <iostream>
-
 MYLIB_SPACE_BEGIN
 
 class ConsoleStream {

@@ -7,6 +7,8 @@
 #include <boost/lexical_cast.hpp>
 #include <yaml-cpp/yaml.h>
 
+#include "pch.h"
+
 #define MYLIB_SPACE_NAME mylib
 #define MYLIB_SPACE_BEGIN namespace MYLIB_SPACE_NAME {
 #define MYLIB_SPACE_END }
