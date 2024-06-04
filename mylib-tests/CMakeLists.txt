@@ -17,13 +17,14 @@ foreach (SOURCE_FILE ${MODEL_SOURCES})
 endforeach ()
 
 add_executable(${MODEL_NAME} ${MODEL_SOURCES})
-target_link_libraries(${MODEL_NAME} PRIVATE Boost::unit_test_framework mylibd-static)
 
 enable_testing()
 
+target_link_libraries(${MODEL_NAME} PRIVATE mylibd-static GTest::gtest GTest::gtest_main GTest::gmock GTest::gmock_main)
+
 add_test(
-        NAME MyTest
-        COMMAND ${PROJECT_NAME}
+        NAME mylib
+        COMMAND ${MODEL_NAME}
 )
 
 message(STATUS ">>>> [${MODEL_NAME}] create finish.\n\n")

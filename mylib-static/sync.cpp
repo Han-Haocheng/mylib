@@ -4,8 +4,8 @@
 
 #include "sync.h"
 
-#include <utility>
 #include "log.h"
+#include <utility>
 
 MYLIB_SPACE_BEGIN
 
@@ -279,9 +279,12 @@ void Coroutine::set_coroutine(coroutine_t *to) {
 
 void Coroutine::create_coroutine() {
 #if MYLIB_MSVC
-  m_coroutine = CreateFiber(m_stack_size,
-                            reinterpret_cast<LPFIBER_START_ROUTINE>(&Coroutine::run),
-                            t_main_coroutine);
+  DWORD dwStackSize = m_stack_size;
+  auto lpStartAddress = reinterpret_cast<LPFIBER_START_ROUTINE>(&Coroutine::run);
+  LPVOID lpParameter = this;
+
+  m_coroutine = CreateFiber(dwStackSize, lpStartAddress, lpParameter);
+  
   if (!m_coroutine) {
     throw;//todo
   }

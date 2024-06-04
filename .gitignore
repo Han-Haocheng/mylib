@@ -361,3 +361,21 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/.idea/modules.xml
+/.idea/mylib.iml
+/.idea/vcs.xml
+
+packages
+
+*/*.vcxproj
+*/*.vcxproj.*
+*/packages.config
+
+/.idea/.name
+/.idea/encodings.xml
+/.idea/misc.xml
+
+/cmake-build-debug
+
+/cmake-build-release
+/lib/mylibd-static.lib

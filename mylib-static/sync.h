@@ -16,7 +16,7 @@
 #include <pthread.h>
 #include <semaphore.h>
 #include <ucontext.h>
-#endif// _WIN32
+#endif// MYLIB_MSVC
 
 MYLIB_SPACE_BEGIN
 
@@ -123,6 +123,7 @@ using coroutine_t = ucontext_t;
  * */
 class Coroutine {
 public:
+  using ptr = std::shared_ptr<Coroutine>;
   using size_type = size_t;
   using function_t = std::function<void(void)>;
   enum state_t
@@ -158,7 +159,7 @@ private:
   function_t m_cb;
   coroutine_t m_coroutine;
 
-  static cid_t s_current_id;
+  static cid_t s_current_id;// todo id alloc
 
   static thread_local coroutine_t t_main_coroutine;
   static thread_local coroutine_t *t_current_coroutine;
@@ -203,6 +204,16 @@ private:
   //Semaphore m_sem;
   static thread_local String t_current_thread_name;
   static thread_local Thread *t_current_thread;
+};
+
+class Scheduler {
+public:
+  using function = std::function<void(void)>;
+  void schedule(function cb);
+  void schedule(Coroutine::ptr co);
+
+private:
+  std::vector<Thread::ptr> m_thread_pool;
 };
 
 MYLIB_SPACE_END

@@ -1,7 +1,7 @@
 set(MODEL_NAME mylib)
 
-file(GLOB_RECURSE MODEL_HEADERS ${CMAKE_CURRENT_SOURCE_DIR}/*/*.h mylib.h)
-file(GLOB_RECURSE MODEL_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/*/*.cpp main.cpp)
+file(GLOB_RECURSE MODEL_HEADERS ${CMAKE_CURRENT_SOURCE_DIR}/*.h mylib.h)
+file(GLOB_RECURSE MODEL_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp main.cpp)
 source_group("header files" FILES ${MODEL_HEADERS})
 source_group("source files" FILES ${MODEL_SOURCES})
 
