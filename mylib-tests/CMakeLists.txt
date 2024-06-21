@@ -18,9 +18,9 @@ endforeach ()
 
 add_executable(${MODEL_NAME} ${MODEL_SOURCES})
 
-enable_testing()
-
 target_link_libraries(${MODEL_NAME} PRIVATE mylibd-static GTest::gtest GTest::gtest_main GTest::gmock GTest::gmock_main)
+
+enable_testing()
 
 add_test(
         NAME mylib

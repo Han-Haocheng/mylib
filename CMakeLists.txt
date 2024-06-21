@@ -13,6 +13,7 @@ set(CMAKE_CXX_STANDARD 17)
 find_package(Boost REQUIRED COMPONENTS unit_test_framework)
 find_package(yaml-cpp REQUIRED)
 find_package(GTest CONFIG REQUIRED)
+find_package(jsoncpp CONFIG REQUIRED)
 
 add_subdirectory(mylib-static)
 add_subdirectory(mylib-tests)

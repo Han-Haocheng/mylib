@@ -1,6 +1,7 @@
 #include "stream.h"
 
-#include "mylib_def.h"
+#include "core/mylib_def.h"
+
 #include <iostream>
 MYLIB_SPACE_BEGIN
 

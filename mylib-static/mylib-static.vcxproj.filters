@@ -15,63 +15,87 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="_until_uplow_base.h">
+    <ClInclude Include="src\untils\_until_uplow_base.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="algorithm.h">
+    <ClInclude Include="src\untils\algorithm.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="config.h">
+    <ClInclude Include="src\conifg\config.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="converter.h">
+    <ClInclude Include="src\untils\converter.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="iterator.h">
+    <ClInclude Include="src\container\iterator.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="list.h">
+    <ClInclude Include="src\container\list.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="log.h">
+    <ClInclude Include="src\log\log.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="mylib_def.h">
+    <ClInclude Include="src\core\mylib_def.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="stream.h">
+    <ClInclude Include="src\stream.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="sync.h">
+    <ClInclude Include="src\sync\sync.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="until.h">
+    <ClInclude Include="src\untils\until.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\scheduler\scheduler.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sync\coroutine.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sync\thread.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\exception\exception.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="algorithm.cpp">
+    <ClCompile Include="src\untils\algorithm.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="config.cpp">
+    <ClCompile Include="src\conifg\config.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="iterator.cpp">
+    <ClCompile Include="src\container\iterator.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="list.cpp">
+    <ClCompile Include="src\container\list.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="log.cpp">
+    <ClCompile Include="src\log\log.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="stream.cpp">
+    <ClCompile Include="src\stream.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="sync.cpp">
+    <ClCompile Include="src\sync\sync.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="until.cpp">
+    <ClCompile Include="src\untils\until.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\scheduler\scheduler.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sync\coroutine.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sync\thread.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\exception\exception.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

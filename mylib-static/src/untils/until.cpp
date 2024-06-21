@@ -3,7 +3,7 @@
 //
 
 #include "until.h"
-#include "sync.h"
+#include "../sync/sync.h"
 
 MYLIB_SPACE_BEGIN
 
