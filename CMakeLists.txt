@@ -1,6 +1,13 @@
 cmake_minimum_required(VERSION 3.22)
 
+
 project(mylib)
+
+set(CMAKE_SYSTEM_PROCESSOR x86)
+
+if(MSVC)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /wd4819")
+endif()
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
