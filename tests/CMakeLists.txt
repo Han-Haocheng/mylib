@@ -1,4 +1,4 @@
-set(MODEL_NAME mytests)
+set(MODEL_NAME tests)
 
 file(GLOB_RECURSE MODEL_HEADERS ${CMAKE_CURRENT_SOURCE_DIR}/*.h)
 file(GLOB_RECURSE MODEL_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
@@ -17,13 +17,17 @@ foreach (SOURCE_FILE ${MODEL_SOURCES})
 endforeach ()
 
 add_executable(${MODEL_NAME} ${MODEL_SOURCES})
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+    target_link_libraries(${MODEL_NAME} PRIVATE mylibd-static GTest::gtest GTest::gtest_main GTest::gmock GTest::gmock_main)
+elseif (CMAKE_BUILD_TYPE STREQUAL "Release")
+    target_link_libraries(${MODEL_NAME} PRIVATE mylib-static GTest::gtest GTest::gtest_main GTest::gmock GTest::gmock_main)
+endif ()
 
-target_link_libraries(${MODEL_NAME} PRIVATE mylibd-static GTest::gtest GTest::gtest_main GTest::gmock GTest::gmock_main)
 
 enable_testing()
 
 add_test(
-        NAME mylib
+        NAME mylib-tests
         COMMAND ${MODEL_NAME}
 )
 

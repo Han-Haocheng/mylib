@@ -13,6 +13,8 @@
 
 #include <dbghelp.h>
 
+//#pragma dllimport("DbgHelp.lib")
+
 #define MYLIB_THROW(what) \
   throw MYLIB_SPACE::Exception { MYLIB_CURRENT_SOURCE_INFO, what }
 
@@ -31,7 +33,7 @@ public:
   static bool CaptureStackBack(std::vector<ExceptFuncInfo> &out, size_t skip, size_t maxStackSize = 64);
 
 public:
-  explicit Exception(SourceInfo info, CString what);
+  explicit Exception(SourceInfo info, String what);
   ~Exception() noexcept override;
 
   Exception(Exception &&e) noexcept = default;

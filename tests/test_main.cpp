@@ -1,9 +1,9 @@
 //
 // Created by HanHaocheng on 2024/6/4.
 //
-#include "gtest/gtest.h"
 
 
+#include "include.h"
 
 int main(int argc, char** argv) {
   ::testing::GTEST_FLAG(catch_exceptions) = false;

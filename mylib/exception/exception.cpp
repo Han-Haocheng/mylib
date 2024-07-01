@@ -58,8 +58,8 @@ bool Exception::CaptureStackBack(std::vector<ExceptFuncInfo> &out, size_t skip, 
   return true;
 }
 
-Exception::Exception(SourceInfo info, CString what)
-    : std::exception(what),
+Exception::Exception(SourceInfo info, String what)
+    : std::exception(what.c_str()),
       m_info(std::move(info)),
       m_stack_back() {
   CaptureStackBack(m_stack_back, 1);

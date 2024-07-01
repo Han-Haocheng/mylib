@@ -4,7 +4,6 @@
 
 #include "include.h"
 
-#include "../mylib-static/src/exception/exception.h"
 
 TEST(EXCEPTION, capture_stack_back_trace) {
   std::vector<MYLIB_SPACE::ExceptFuncInfo> res;

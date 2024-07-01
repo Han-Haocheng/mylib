@@ -5,9 +5,18 @@
 #include <sstream>
 #include <string>
 
+// 禁用C4251警告
+#pragma warning(push)
+#pragma warning(disable : 4251)
+#pragma warning(disable : 4275)
+
 #include <boost/lexical_cast.hpp>
 #include <json/json.h>
 #include <yaml-cpp/yaml.h>
+
+// 重新启用刚才禁用的警告
+#pragma warning(pop)
+
 
 #define MYLIB_SPACE mylib
 #define MYLIB_SPACE_BEGIN namespace MYLIB_SPACE {

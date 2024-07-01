@@ -12,14 +12,30 @@ ConfigManager::ptr ConfigManager::s_config_manager = nullptr;
 
 bool ConfigManager::loadFile(const String &filename) {
   try {
-    YAML::Node node = YAML::LoadFile(filename);
-    analysis_yaml(node);
-    return true;
+    // 查找最后一个点（`.`）字符的位置
+    size_t dotpos = filename.find_last_of('.');
+
+    // 如果点不存在，或者点是字符串的最后一个字符，则返回空字符串
+    if (dotpos == std::string::npos || dotpos == filename.length() - 1) {
+      return false;
+    }
+
+    // 获取点之后的所有字符，即文件扩展名
+    String ftype = filename.substr(dotpos + 1);
+
+    if (ftype == "yml" || ftype == "yaml") {
+      YAML::Node node = YAML::LoadFile(filename);
+      analysis_yaml(node);
+      return true;
+    } else if (ftype == "json" || ftype == "jsn") {
+      Json::Reader reader;
+      analysis_json(filename);
+      return true;
+    }
   } catch (const YAML::BadFile &e) {
-    Json::Reader reader;
-    analysis_json(filename);
-    return true;
+     
   } catch (...) {
+
   }
   return false;
 }

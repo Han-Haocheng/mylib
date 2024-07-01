@@ -101,7 +101,7 @@ public:
     try {
       return s_map->at(ty);
     } catch (const std::out_of_range &oor) {
-      MYLIB_THROW("fromString out of range");
+      MYLIB_THROW(String{"fromString out of range"} + oor.what());
     } catch (...) {
       MYLIB_THROW("fromString unknown error");
     }

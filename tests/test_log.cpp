@@ -1,6 +1,5 @@
 #include "include.h"
 
-#include "../mylib-static/src/logger/log.h"
 
 TEST(TestCaseName, TestName) {
   MYLIB_LOG_ERROR(MYLIB_ROOT_LOGGER) << "error test";

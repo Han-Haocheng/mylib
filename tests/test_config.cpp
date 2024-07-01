@@ -3,7 +3,6 @@
 //
 #include "include.h"
 
-#include "../mylib-static/src/conifg/config_manager.h"
 
 TEST(ConfigManager, base) {
   auto config_man = MYLIB_SPACE::ConfigManager::GetInstance();
