@@ -1,7 +1,6 @@
 #ifndef MYLIB_LOG_FORMATTER_H_
 #define MYLIB_LOG_FORMATTER_H_
 
-#include "../core/mylib_def.h"
 #include "../sync/spinlock.h"
 #include "log_event.h"
 

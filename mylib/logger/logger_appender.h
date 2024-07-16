@@ -1,7 +1,6 @@
 #ifndef MYLIB_LOGGER_APPENDER_H_
 #define MYLIB_LOGGER_APPENDER_H_
 
-#include "../core/mylib_def.h"
 #include "../sync/caslock.h"
 #include "log_event.h"
 #include "log_formatter.h"

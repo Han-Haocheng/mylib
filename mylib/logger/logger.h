@@ -3,7 +3,6 @@
 #ifndef MYLIB_LOGGER_H_
 #define MYLIB_LOGGER_H_
 
-#include "../core/mylib_def.h"
 #include "log_event.h"
 #include "log_formatter.h"
 #include "logger_appender.h"
@@ -12,7 +11,7 @@
 
 MYLIB_SPACE_BEGIN
 
-#define MYLIB_ROOT_LOGGER MYLIB_SPACE::Logger::RootLogger()
+#define MYLIB_ROOT_LOGGER MYLIB::Logger::RootLogger()
 
 class Logger {
 public:

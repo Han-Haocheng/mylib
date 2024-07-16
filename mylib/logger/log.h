@@ -14,12 +14,12 @@
 
 #define MYLIB_LOG_BASE(level, logger, source_info) \
   if (logger && logger->getType() < level)         \
-  MYLIB_SPACE::LogWarp{level, logger, source_info}.msg()
+  MYLIB::LogWarp{level, logger, source_info}.msg()
 
-#define MYLIB_LOG_DEBUG(logger) MYLIB_LOG_BASE(MYLIB_SPACE::LogEvent::LE_DEBUG, logger, MYLIB_CURRENT_SOURCE_INFO)
-#define MYLIB_LOG_INFO(logger) MYLIB_LOG_BASE(MYLIB_SPACE::LogEvent::LE_INFO, logger, MYLIB_CURRENT_SOURCE_INFO)
-#define MYLIB_LOG_WARN(logger) MYLIB_LOG_BASE(MYLIB_SPACE::LogEvent::LE_WARN, logger, MYLIB_CURRENT_SOURCE_INFO)
-#define MYLIB_LOG_ERROR(logger) MYLIB_LOG_BASE(MYLIB_SPACE::LogEvent::LE_ERROR, logger, MYLIB_CURRENT_SOURCE_INFO)
+#define MYLIB_LOG_DEBUG(logger) MYLIB_LOG_BASE(MYLIB::LogEvent::LE_DEBUG, logger, MYLIB_CURRENT_SOURCE_INFO)
+#define MYLIB_LOG_INFO(logger) MYLIB_LOG_BASE(MYLIB::LogEvent::LE_INFO, logger, MYLIB_CURRENT_SOURCE_INFO)
+#define MYLIB_LOG_WARN(logger) MYLIB_LOG_BASE(MYLIB::LogEvent::LE_WARN, logger, MYLIB_CURRENT_SOURCE_INFO)
+#define MYLIB_LOG_ERROR(logger) MYLIB_LOG_BASE(MYLIB::LogEvent::LE_ERROR, logger, MYLIB_CURRENT_SOURCE_INFO)
 
 MYLIB_SPACE_BEGIN
 

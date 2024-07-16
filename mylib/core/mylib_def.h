@@ -18,8 +18,8 @@
 #pragma warning(pop)
 
 
-#define MYLIB_SPACE mylib
-#define MYLIB_SPACE_BEGIN namespace MYLIB_SPACE {
+#define MYLIB mylib
+#define MYLIB_SPACE_BEGIN namespace MYLIB {
 #define MYLIB_SPACE_END }
 
 //#define MYLIB_STATIC static
@@ -39,14 +39,14 @@
 #endif// _MSC_VER
 
 #define MYLIB_CLASS_NAME \
-  MYLIB_SPACE::FormatClassName(MYLIB_##FULL_FUNC_NAME)
+  MYLIB::FormatClassName(MYLIB_##FULL_FUNC_NAME)
 
 #define MYLIB_LINE (unsigned int) __##LINE__
 #define MYLIB_FILE_NAME __##FILE__
 #define MYLIB_FUNC_NAME __##func__
 
 #define MYLIB_CURRENT_SOURCE_INFO \
-  MYLIB_##SPACE::SourceInfo { MYLIB_##LINE, MYLIB_##FILE_NAME, MYLIB_##FUNC_NAME, MYLIB_##CLASS_NAME }
+  MYLIB::SourceInfo { MYLIB_##LINE, MYLIB_##FILE_NAME, MYLIB_##FUNC_NAME, MYLIB_##CLASS_NAME }
 
 MYLIB_SPACE_BEGIN
 

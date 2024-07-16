@@ -16,7 +16,7 @@
 //#pragma dllimport("DbgHelp.lib")
 
 #define MYLIB_THROW(what) \
-  throw MYLIB_SPACE::Exception { MYLIB_CURRENT_SOURCE_INFO, what }
+  throw MYLIB::Exception { MYLIB_CURRENT_SOURCE_INFO, what }
 
 MYLIB_SPACE_BEGIN
 

@@ -1,7 +1,6 @@
 #ifndef MYLIB_LOGGER_MANAGER_H
 #define MYLIB_LOGGER_MANAGER_H
 
-#include "../core/mylib_def.h"
 #include "logger.h"
 
 MYLIB_SPACE_BEGIN
