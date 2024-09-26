@@ -1,6 +1,7 @@
 #ifndef MYLIB_MYLIB_H_
 #define MYLIB_MYLIB_H_
-#include "core/mylib_def.h"
+
+#include "base/mylib_def.h"
 #include "async/async.h"
 #include "config/config_manager.h"
 #include "logger/log.h"

@@ -3,7 +3,7 @@
 
 #include "logger.h"
 
-MYLIB_SPACE_BEGIN
+MYLIB_BEGIN
 class LoggerManager {
 public:
   using ptr = std::shared_ptr<LoggerManager>;
@@ -32,6 +32,6 @@ public:
 private:
 };
 
-MYLIB_SPACE_END
+MYLIB_END
 
 #endif// !MYLIB_LOGGER_MANAGER_H

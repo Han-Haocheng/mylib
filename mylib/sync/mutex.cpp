@@ -4,7 +4,7 @@
 
 #include "mutex.h"
 #include "../exception/exception.h"
-MYLIB_SPACE_BEGIN
+MYLIB_BEGIN
 
 Mutex::Mutex() : m_is_locked(false), m_mutex() { create_mutex(); }
 Mutex::~Mutex() { destroy_mutex(); }
@@ -54,4 +54,4 @@ void Mutex::unlock_mutex() {
   m_is_locked = false;
 }
 
-MYLIB_SPACE_END
+MYLIB_END

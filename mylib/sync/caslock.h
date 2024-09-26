@@ -5,10 +5,10 @@
 #ifndef MYLIB_THREAD_H
 #define MYLIB_THREAD_H
 
+#include "../base/mylib_def.h"
 #include <utility>
-#include "../core/mylib_def.h"
 
-MYLIB_SPACE_BEGIN
+MYLIB_BEGIN
 /**
  * @brief 交换锁
  */
@@ -22,6 +22,6 @@ public:
 private:
   volatile std::atomic_flag m_atomic_flag;
 };
-MYLIB_SPACE_END
+MYLIB_END
 
 #endif//MYLIB_THREAD_H

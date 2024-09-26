@@ -4,7 +4,7 @@
 
 #include "spinlock.h"
 
-MYLIB_SPACE_BEGIN
+MYLIB_BEGIN
 
 Spinlock::Spinlock() : m_spinlock() { create_spinlock(); }
 Spinlock::~Spinlock() { destroy_spinlock(); }
@@ -40,7 +40,6 @@ void Spinlock::lock_spinlock() {
 #elif MYLIB_GUN
   pthread_spin_lock(&m_spinlock);
 #endif// MYLIB_MSVC==1
-
 }
 bool Spinlock::unlock_spinlock() {
 #ifdef MYLIB_MSVC
@@ -51,4 +50,4 @@ bool Spinlock::unlock_spinlock() {
   return true;
 }
 
-MYLIB_SPACE_END
+MYLIB_END

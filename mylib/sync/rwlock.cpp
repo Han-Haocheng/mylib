@@ -4,7 +4,7 @@
 
 #include "rwlock.h"
 
-MYLIB_SPACE_BEGIN
+MYLIB_BEGIN
 
 RWLock::RWLock() : m_state(RWS_IDLE), m_rwlock() { create_rwlock(); }
 RWLock::~RWLock() { destroy_rwlock(); }
@@ -73,4 +73,4 @@ void RWLock::write_unlock() {
   m_state = RWS_IDLE;
 }
 
-MYLIB_SPACE_END
+MYLIB_END

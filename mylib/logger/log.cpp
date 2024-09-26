@@ -11,7 +11,7 @@
 #include <memory>
 #include <utility>
 
-MYLIB_SPACE_BEGIN
+MYLIB_BEGIN
 
 LogWarp::LogWarp(LogEvent::value_type level, Logger::ptr logger, SourceInfo info)
     : m_level(level),
@@ -20,4 +20,4 @@ LogWarp::LogWarp(LogEvent::value_type level, Logger::ptr logger, SourceInfo info
               m_level, GetCurrentTimestamp(), Thread::GetCurrentThreadId(), 1) {
 }
 
-MYLIB_SPACE_END
+MYLIB_END

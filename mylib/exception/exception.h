@@ -5,34 +5,27 @@
 #ifndef MYLIB_SLN_EXCEPTION_H
 #define MYLIB_SLN_EXCEPTION_H
 
-#include "../core/mylib_def.h"
+#include "../base/mylib_def.h"
+#include <vector>
+
 //#include "../logger/log.h"
 
-#include <utility>
-#include <windows.h>
-
-#include <dbghelp.h>
-
-//#pragma dllimport("DbgHelp.lib")
-
 #define MYLIB_THROW(what) \
-  throw MYLIB::Exception { MYLIB_CURRENT_SOURCE_INFO, what }
+  throw MYLIB_SPACE::Exception { MYLIB_CURRENT_SOURCE_INFO, what }
 
-MYLIB_SPACE_BEGIN
+MYLIB_BEGIN
 
 struct ExceptFuncInfo {
   String name;
   uint64 addr;
 
-    ExceptFuncInfo() = default;
-    ExceptFuncInfo(String name, uint64 addr);
+  explicit ExceptFuncInfo(String name = "", uint64 addr = 0);
 };
 
 class Exception : public std::exception {
 public:
   static bool CaptureStackBack(std::vector<ExceptFuncInfo> &out, size_t skip, size_t maxStackSize = 64);
 
-public:
   explicit Exception(SourceInfo info, String what);
   ~Exception() noexcept override;
 
@@ -45,12 +38,11 @@ public:
   [[nodiscard]] const std::vector<ExceptFuncInfo> &stackBack() const { return m_stack_back; }
   [[nodiscard]] const SourceInfo &info() const { return m_info; }
 
-public:
 private:
   SourceInfo m_info;
   std::vector<ExceptFuncInfo> m_stack_back;
 };
 
-MYLIB_SPACE_END
+MYLIB_END
 
 #endif//MYLIB_SLN_EXCEPTION_H

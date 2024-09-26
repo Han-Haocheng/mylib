@@ -1,84 +1,23 @@
 #include "coroutine.h"
+#include "../cast/string_cast.h"
 #include "../exception/exception.h"
 #include "../logger/log.h"
-#include "../untils/string_converter.h"
 
-MYLIB_SPACE_BEGIN
+MYLIB_BEGIN
 
 static const Logger::ptr s_logger = MYLIB_ROOT_LOGGER;
 
 thread_local coroutine_t Coroutine::t_main_coroutine;
 thread_local coroutine_t *Coroutine::t_current_coroutine = nullptr;
 
-//void Coroutine::ConvertToThread() {
-//#ifdef MYLIB_GUN
-//  getcontext(&t_main_coroutine);
-//  t_main_coroutine.uc_stack.ss_sp = nullptr;
-//  t_main_coroutine.uc_stack.ss_size = 0;
-//  t_main_coroutine.uc_stack.ss_flags = 0;
-//  makecontext(&t_main_coroutine, nullptr, 0);
-//#elif MYLIB_MSVC
-//  if (!ConvertFiberToThread()) {
-//    MYLIB_LOG_ERROR(s_logger)
-//        << "ConvertFiberToThread error";
-//  }
-//#endif
-//}
-
-//void Coroutine::ConvertFromThread() {
-//#ifdef MYLIB_MSVC
-//  t_main_coroutine = ConvertThreadToFiber(nullptr);
-//#endif
-//}
-
 template<>
-class StringConverter<Coroutine::state_t> {
+class StringCast<Coroutine::state_t> {
 public:
-  using converte_type = Coroutine::state_t;
-  StringConverter() {
-    if (s_map) {
-      return;
-    }
-    s_map = std::make_shared<std::unordered_map<String, converte_type>>(
-        std::unordered_map<String, converte_type>{
-            {"0", Coroutine::COS_UNDEFINED},
-            {"COS_UNDEFINED", Coroutine::COS_UNDEFINED},
-            {"UNDEFINED", Coroutine::COS_UNDEFINED},
-            {"cos_undefined", Coroutine::COS_UNDEFINED},
-            {"undefined", Coroutine::COS_UNDEFINED},
+  using cast_type = Coroutine::state_t;
+  using map_type = std::unordered_map<String, cast_type>;
+  using pair_t = std::pair<String, cast_type>;
 
-            {"1", Coroutine::COS_READY},
-            {"COS_READY", Coroutine::COS_READY},
-            {"READY", Coroutine::COS_READY},
-            {"cos_ready", Coroutine::COS_READY},
-            {"ready", Coroutine::COS_READY},
-
-            {"2", Coroutine::COS_RUNNING},
-            {"COS_RUNNING", Coroutine::COS_RUNNING},
-            {"RUNNING", Coroutine::COS_RUNNING},
-            {"cos_running", Coroutine::COS_RUNNING},
-            {"running", Coroutine::COS_RUNNING},
-
-            {"4", Coroutine::COS_SUSPENDED},
-            {"COS_UNDEFINED", Coroutine::COS_SUSPENDED},
-            {"UNDEFINED", Coroutine::COS_SUSPENDED},
-            {"cos_undefined", Coroutine::COS_SUSPENDED},
-            {"undefined", Coroutine::COS_SUSPENDED},
-
-            {"8", Coroutine::COS_TERMINATED},
-            {"COS_TERMINATED", Coroutine::COS_TERMINATED},
-            {"TERMINATED", Coroutine::COS_TERMINATED},
-            {"cos_terminated", Coroutine::COS_TERMINATED},
-            {"terminated", Coroutine::COS_TERMINATED},
-
-            {"16", Coroutine::COS_DEAD},
-            {"COS_DEAD", Coroutine::COS_DEAD},
-            {"DEAD", Coroutine::COS_DEAD},
-            {"cos_dead", Coroutine::COS_DEAD},
-            {"dead", Coroutine::COS_DEAD},
-        });
-  }
-  String toString(const converte_type &ty) {
+  static String toString(const cast_type &ty) {
     switch (ty) {
       case Coroutine::COS_UNDEFINED:
         return "COS_UNDEFINED";
@@ -96,49 +35,58 @@ public:
     return "";
   }
 
-  converte_type fromString(const String &ty) {
+  static cast_type fromString(const String &ty) {
     //std::transform(ty.begin(), ty.end(), );
     try {
-      return s_map->at(ty);
-    } catch (const std::out_of_range &oor) {
-      MYLIB_THROW(String{"fromString out of range"} + oor.what());
-    } catch (...) {
+      return s_map.at(ty);
+    } catch (const std::out_of_range &oor) { MYLIB_THROW(String{"fromString out of range"} + oor.what()); } catch (...) {
       MYLIB_THROW("fromString unknown error");
     }
   }
 
 private:
-  static std::shared_ptr<std::unordered_map<String, converte_type>> s_map;
+  static map_type s_map;
 };
 
-//const std::unordered_map<String, Coroutine::state_t> CoStateConverter::s_map = {
-//    {"0", Coroutine::COS_UNDEFINED},
-//    {"COS_UNDEFINED", Coroutine::COS_UNDEFINED},
-//    {"UNDEFINED", Coroutine::COS_UNDEFINED},
-//    {"cos_undefined", Coroutine::COS_UNDEFINED},
-//    {"undefined", Coroutine::COS_UNDEFINED},
-//
-//    {"1", Coroutine::COS_READY},
-//    {"COS_READY", Coroutine::COS_READY},
-//    {"READY", Coroutine::COS_READY},
-//    {"cos_ready", Coroutine::COS_READY},
-//    {"ready", Coroutine::COS_READY},
-//
-//    {"2", Coroutine::COS_RUNNING},
-//    {"COS_RUNNING", Coroutine::COS_RUNNING},
-//    {"RUNNING", Coroutine::COS_RUNNING},
-//    {"cos_running", Coroutine::COS_RUNNING},
-//    {"running", Coroutine::COS_RUNNING},
-//
-//    {"3", Coroutine::COS_RUNNING},
-//    {"COS_UNDEFINED", Coroutine::COS_UNDEFINED},
-//    {"UNDEFINED", Coroutine::COS_UNDEFINED},
-//    {"cos_undefined", Coroutine::COS_UNDEFINED},
-//    {"undefined", Coroutine::COS_UNDEFINED},
-//
-//};
+StringCast<Coroutine::state_t>::map_type StringCast<Coroutine::state_t>::s_map{
+    {"0", Coroutine::COS_UNDEFINED},
+    {"COS_UNDEFINED", Coroutine::COS_UNDEFINED},
+    {"UNDEFINED", Coroutine::COS_UNDEFINED},
+    {"cos_undefined", Coroutine::COS_UNDEFINED},
+    {"undefined", Coroutine::COS_UNDEFINED},
 
-Coroutine::Coroutine(cid_t cid, function_t cb, Coroutine::size_type stack_size)
+    {"1", Coroutine::COS_READY},
+    {"COS_READY", Coroutine::COS_READY},
+    {"READY", Coroutine::COS_READY},
+    {"cos_ready", Coroutine::COS_READY},
+    {"ready", Coroutine::COS_READY},
+
+    {"2", Coroutine::COS_RUNNING},
+    {"COS_RUNNING", Coroutine::COS_RUNNING},
+    {"RUNNING", Coroutine::COS_RUNNING},
+    {"cos_running", Coroutine::COS_RUNNING},
+    {"running", Coroutine::COS_RUNNING},
+
+    {"4", Coroutine::COS_SUSPENDED},
+    {"COS_UNDEFINED", Coroutine::COS_SUSPENDED},
+    {"UNDEFINED", Coroutine::COS_SUSPENDED},
+    {"cos_undefined", Coroutine::COS_SUSPENDED},
+    {"undefined", Coroutine::COS_SUSPENDED},
+
+    {"8", Coroutine::COS_TERMINATED},
+    {"COS_TERMINATED", Coroutine::COS_TERMINATED},
+    {"TERMINATED", Coroutine::COS_TERMINATED},
+    {"cos_terminated", Coroutine::COS_TERMINATED},
+    {"terminated", Coroutine::COS_TERMINATED},
+
+    {"16", Coroutine::COS_DEAD},
+    {"COS_DEAD", Coroutine::COS_DEAD},
+    {"DEAD", Coroutine::COS_DEAD},
+    {"cos_dead", Coroutine::COS_DEAD},
+    {"dead", Coroutine::COS_DEAD},
+};
+
+Coroutine::Coroutine(cid_t cid, function_t cb, const size_type stack_size)
     : m_cid(cid),
       m_state(COS_UNDEFINED),
       m_stack(nullptr),
@@ -174,9 +122,7 @@ void Coroutine::yield() {
 }
 
 void Coroutine::resume() {
-  if (m_state & ~(COS_READY | COS_SUSPENDED)) {
-    MYLIB_THROW((String("The current state of coroutine is") + StringConverter<state_t>{}.toString(m_state)).c_str());
-  }
+  if (m_state & ~(COS_READY | COS_SUSPENDED)) { MYLIB_THROW(String("The current state of coroutine is") + StringCast<Coroutine::state_t>::toString(m_state)); }
 
   if (t_current_coroutine != &t_main_coroutine) {
     //todo error
@@ -187,9 +133,7 @@ void Coroutine::resume() {
 }
 
 void Coroutine::run(Coroutine *coroutine) {
-  if (!coroutine) {
-    return;
-  }
+  if (!coroutine) { return; }
   Coroutine &co = *coroutine;
   function_t cb = nullptr;
   cb.swap(co.m_cb);
@@ -238,12 +182,10 @@ void Coroutine::create_coroutine() {
 #endif
 }
 
-void Coroutine::destroy_coroutine() {
+void Coroutine::destroy_coroutine() const {
 #if MYLIB_MSVC
-  if (m_coroutine) {
-    DeleteFiber(m_coroutine);
-  }
+  if (m_coroutine) { DeleteFiber(m_coroutine); }
 #endif
 }
 
-MYLIB_SPACE_END
+MYLIB_END

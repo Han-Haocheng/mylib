@@ -1,7 +1,7 @@
 #pragma once
-#include "../core/mylib_def.h"
+#include "../base/mylib_def.h"
 
-MYLIB_SPACE_BEGIN
+MYLIB_BEGIN
 using ptrdiff_t = long long;
 
 template<class DerivedTy, class ConverterTy, class Ty,
@@ -124,4 +124,4 @@ public:
   friend derived_type operator-(const different_type &lhs, const derived_type &rhs) { return rhs->offset(-lhs); }
 };
 
-MYLIB_SPACE_END
+MYLIB_END

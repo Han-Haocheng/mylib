@@ -5,7 +5,7 @@
 #ifndef MYLIB_SLN_RWLOCK_H
 #define MYLIB_SLN_RWLOCK_H
 
-#include "../core/mylib_def.h"
+#include "../base/mylib_def.h"
 
 #ifdef MYLIB_MSVC
 #include <windows.h>
@@ -13,7 +13,7 @@
 #include <pthread.h>
 #endif// MYLIB_MSVC
 
-MYLIB_SPACE_BEGIN
+MYLIB_BEGIN
 #ifdef MYLIB_MSVC
 using rwlock_t = SRWLOCK;
 #elif MYLIB_GUN
@@ -53,6 +53,6 @@ private:
   rwlock_t m_rwlock;
 };
 
-MYLIB_SPACE_END
+MYLIB_END
 
 #endif//MYLIB_SLN_RWLOCK_H

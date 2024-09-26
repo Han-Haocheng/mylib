@@ -1,8 +1,13 @@
 #ifndef MYLIB_LOG_EVENT_H_
 #define MYLIB_LOG_EVENT_H_
-#include "../core/mylib_def.h"
+#include "../base/mylib_def.h"
+#include "../cast/string_cast.h"
 
-MYLIB_SPACE_BEGIN
+#include <memory>
+#include <stdexcept>
+#include <unordered_map>
+
+MYLIB_BEGIN
 
 class LogEvent {
 public:
@@ -34,24 +39,56 @@ public:
   [[nodiscard]] inline const String &getCoroutineName() const { return m_coroutine_name; }
 
 private:
-  // 输出类型
-  String m_logger_name;//日志器名
-  value_type m_type;   //日志类型
+  // 基本属性
+  String m_logger_name;   //日志器名
+  value_type m_type;      //日志类型
+  SourceInfo m_local_info;//位置信息
+  time_t m_time;          //时间戳
+  tid_t m_thread_id;      //线程id
+  cid_t m_coroutine_id;   //协程id
+  String m_thread_name;   //线程名
+  String m_coroutine_name;//协程名
 
-  // 位置信息
-  SourceInfo m_local_info;
-
-  time_t m_time;//时间戳
-
-  // 异步信息
-  tid_t m_thread_id;   //线程id
-  cid_t m_coroutine_id;//协程id
-  String m_thread_name;
-  String m_coroutine_name;
-
-  // 日志信息
-  SString m_msg;
+  // 运行信息
+  SString m_msg;// 日志信息
 };
 
-MYLIB_SPACE_END
+template<>
+class StringCast<LogEvent::value_type> {
+public:
+  using Ty = LogEvent::value_type;
+  static String toString(const Ty &ty) {
+    switch (ty) {
+      case Ty::LE_DEBUG:
+        return "Debug";
+      case Ty::LE_INFO:
+        return "Info";
+      case Ty::LE_WARN:
+        return "Warn";
+      case Ty::LE_ERROR:
+        return "Error";
+      default:
+        return "Unknown";
+    }
+  }
+
+  static Ty fromString(const String &ty) {
+    static std::unordered_map<String, Ty> s_map{
+#define XX(ABC, Abc, abc) \
+  {"LE_" #ABC, Ty::LE_##ABC}, {#ABC, Ty::LE_##ABC}, {#Abc, Ty::LE_##ABC}, {#abc, Ty::LE_##ABC}
+        XX(DEBUG, Debug, debug),
+        XX(INFO, Info, info),
+        XX(WARN, Warn, warn),
+        XX(ERROR, Error, error),
+#undef XX
+    };
+    try {
+      return s_map.at(ty);
+    } catch (std::out_of_range &) {
+      return Ty::LE_UNDEFINED;
+    }
+  }
+};
+
+MYLIB_END
 #endif// !MYLIB_LOG_EVENT_H_

@@ -1,9 +1,9 @@
 #pragma once
-#include "../core/mylib_def.h"
+#include "../base/mylib_def.h"
 #include <ctime>
 #include <iostream>
 
-MYLIB_SPACE_BEGIN
+MYLIB_BEGIN
 
 extern "C" time_t GetCurrentTimestamp();
 
@@ -15,4 +15,4 @@ extern "C" constexpr size_t StringLength(CString str) {
   return 0;
 }
 
-MYLIB_SPACE_END
+MYLIB_END

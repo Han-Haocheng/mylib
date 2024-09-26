@@ -1,9 +1,9 @@
 #pragma once
-#include "../core/mylib_def.h"
+#include "../base/mylib_def.h"
 #include "iterator.h"
 #include <functional>
 
-MYLIB_SPACE_BEGIN
+MYLIB_BEGIN
 
 template<class Ty>
 using function = std::function<Ty>;
@@ -105,9 +105,9 @@ public:
   }
 
   void push_back(const value_type &val) {
-    // ÅĞ¶Ï¿Õ¼äÊÇ·ñ½«ÒªÂú
-    //// Èç¹û½«ÒªÂú£¬ÔòÖØĞÂ·ÖÅä¿Õ¼ä
-    // ¸üĞÂ
+    // åˆ¤æ–­ç©ºé—´æ˜¯å¦å°†è¦æ»¡
+    //// å¦‚æœå°†è¦æ»¡ï¼Œåˆ™é‡æ–°åˆ†é…ç©ºé—´
+    // æ›´æ–°
 
     if (m_end == m_storage_end) {
       size_type size = m_end - m_begin;
@@ -129,4 +129,4 @@ private:
   pointer m_storage_end;
   pointer m_end;
 };
-MYLIB_SPACE_END
+MYLIB_END

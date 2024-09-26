@@ -1,6 +1,8 @@
 #ifndef MYLIB_COROUTINE_H
 #define MYLIB_COROUTINE_H
-#include "../core/mylib_def.h"
+#include "../base/mylib_def.h"
+
+#include <functional>
 
 #ifdef MYLIB_MSVC
 #include <Windows.h>
@@ -8,7 +10,7 @@
 #include <ucontext.h>
 #endif// MYLIB_MSVC
 
-MYLIB_SPACE_BEGIN
+MYLIB_BEGIN
 
 #ifdef MYLIB_MSVC
 using coroutine_t = LPVOID;
@@ -38,18 +40,13 @@ public:
   void yield();
   void resume();
 
-  // bool reset(const function_t &cb);
-
-  //  static void ConvertFromThread();
-  //  static void ConvertToThread();
-
   [[nodiscard]] state_t state() const { return m_state; }
 
 private:
   static void run(Coroutine *coroutine);
   static void set_coroutine(coroutine_t *to);
   void create_coroutine();
-  void destroy_coroutine();
+  void destroy_coroutine() const;
 
 private:
   cid_t m_cid;
@@ -64,5 +61,5 @@ private:
   static thread_local coroutine_t *t_current_coroutine;
 };
 
-MYLIB_SPACE_END
+MYLIB_END
 #endif

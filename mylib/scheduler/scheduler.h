@@ -1,12 +1,12 @@
 #pragma once
 #include "../async/coroutine.h"
 #include "../async/thread.h"
-#include "../core/mylib_def.h"
+#include "../base/mylib_def.h"
 #include "../sync/caslock.h"
 #include <forward_list>
 #include <queue>
 
-MYLIB_SPACE_BEGIN
+MYLIB_BEGIN
 
 /*class CoroutineScheduler {
 public:
@@ -91,4 +91,4 @@ private:
   static thread_local bool t_waitting;
 };
 
-MYLIB_SPACE_END
+MYLIB_END

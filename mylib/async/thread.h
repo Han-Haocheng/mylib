@@ -1,12 +1,14 @@
-#pragma once
-#include <utility>
+#ifndef MYLIB_THREAD_H_
+#define MYLIB_THREAD_H_
 
-#include "../core/mylib_def.h"
-#include "coroutine.h"
+#include "../base/mylib_def.h"
+#include <Windows.h>
+#include <functional>
 
-MYLIB_SPACE_BEGIN
+MYLIB_BEGIN
 
 #ifdef MYLIB_MSVC
+
 using tid_t = DWORD;// 线程id类型
 using thread_t = HANDLE;
 #elif MYLIB_GUN
@@ -65,4 +67,5 @@ private:
   static thread_local Thread *t_current_thread;
 };
 
-MYLIB_SPACE_END
+MYLIB_END
+#endif// !MYLIB_THREAD_H_

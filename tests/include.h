@@ -7,7 +7,7 @@
 #include <gtest/gtest.h>
 
 #include "../mylib/sync/caslock.h"
-#include "../mylib/conifg/config_manager.h"
+#include "../mylib/config/config_manager.h"
 #include "../mylib/exception/exception.h"
 #include "../mylib/logger/log.h"
 

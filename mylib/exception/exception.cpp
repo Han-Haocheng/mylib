@@ -5,8 +5,18 @@
 #include "exception.h"
 
 #include <utility>
+#include <Windows.h>
 
-MYLIB_SPACE_BEGIN
+#include <DbgHelp.h>
+
+#pragma comment(lib, "DbgHelp.lib")
+
+#if MYLIB_WIN
+#include
+
+#endif
+
+MYLIB_BEGIN
 
 ExceptFuncInfo::ExceptFuncInfo(String name, uint64 addr) : name(std::move(name)), addr(addr) {}
 
@@ -66,4 +76,4 @@ Exception::Exception(SourceInfo info, String what)
 }
 Exception::~Exception() noexcept = default;
 
-MYLIB_SPACE_END
+MYLIB_END

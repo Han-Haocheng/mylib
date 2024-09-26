@@ -2,7 +2,7 @@
 
 #include <memory>
 #include <utility>
-MYLIB_SPACE_BEGIN
+MYLIB_BEGIN
 
 Scheduler::Scheduler(String name, size_t threadSize, bool useCaller)
     : m_is_stop(false),
@@ -82,4 +82,4 @@ void Scheduler::run(Scheduler *scheduler) {
   }
 }
 
-MYLIB_SPACE_END
+MYLIB_END

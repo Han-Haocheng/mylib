@@ -5,8 +5,8 @@
 #include "until.h"
 #include "../sync/caslock.h"
 
-MYLIB_SPACE_BEGIN
+MYLIB_BEGIN
 
 time_t GetCurrentTimestamp() { return time(nullptr); }
 
-MYLIB_SPACE_END
+MYLIB_END

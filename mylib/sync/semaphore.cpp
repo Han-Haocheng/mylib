@@ -5,7 +5,7 @@
 #include "semaphore.h"
 #include "../exception/exception.h"
 
-MYLIB_SPACE_BEGIN
+MYLIB_BEGIN
 
 Semaphore::Semaphore(int32 init_count)
     : m_sem_count(init_count), m_sem() {
@@ -85,4 +85,4 @@ void Semaphore::post_semaphore() {
 #endif// MYLIB_MSVC==1
 }
 
-MYLIB_SPACE_END
+MYLIB_END

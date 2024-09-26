@@ -2,7 +2,7 @@
 #include "../exception/exception.h"
 #include "../logger/log.h"
 
-MYLIB_SPACE_BEGIN
+MYLIB_BEGIN
 
 // static const Logger::ptr s_logger = MYLIB_ROOT_LOGGER;
 thread_local String Thread::t_current_thread_name = "UNKNOWN";
@@ -66,9 +66,13 @@ Thread::~Thread() {
     for (const auto &item: e.stackBack()) {
       ss << "\tat (" << item.addr << ") " << item.name << "\n";
     }
+
     MYLIB_LOG_ERROR(MYLIB_ROOT_LOGGER)
         << "thread exception\n"
         << ss.str();
+  } catch (...) {
+    MYLIB_LOG_ERROR(MYLIB_ROOT_LOGGER)
+        << "thread exception.";
   }
 }
 
@@ -185,4 +189,4 @@ HANDLE Thread::self_thread() {
   return pthread_self();
 #endif
 }
-MYLIB_SPACE_END
+MYLIB_END

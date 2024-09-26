@@ -4,14 +4,14 @@
 
 #ifndef MYLIB_SLN_SPINLOCK_H
 #define MYLIB_SLN_SPINLOCK_H
-#include "../core/mylib_def.h"
+#include "../base/mylib_def.h"
 #ifdef MYLIB_MSVC
 #include <windows.h>
 #elif MYLIB_GUN
 #include <pthread.h>
 #endif// MYLIB_MSVC
 
-MYLIB_SPACE_BEGIN
+MYLIB_BEGIN
 
 #ifdef MYLIB_MSVC
 using spinlock_t = CRITICAL_SECTION;
@@ -41,6 +41,6 @@ private:
   spinlock_t m_spinlock;
 };
 
-MYLIB_SPACE_END
+MYLIB_END
 
 #endif//MYLIB_SLN_SPINLOCK_H

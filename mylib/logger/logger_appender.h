@@ -1,13 +1,16 @@
 #ifndef MYLIB_LOGGER_APPENDER_H_
 #define MYLIB_LOGGER_APPENDER_H_
 
-#include "../sync/caslock.h"
 #include "log_event.h"
 #include "log_formatter.h"
 
+#include "../sync/spinlock.h"
+
+
+#include <memory>
 #include <fstream>
 
-MYLIB_SPACE_BEGIN
+MYLIB_BEGIN
 
 class LogAppender {
 public:
@@ -49,5 +52,5 @@ private:
   String m_file_path;
 };
 
-MYLIB_SPACE_END
+MYLIB_END
 #endif// !MYLIB_LOGGER_APPENDER_H_

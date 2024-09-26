@@ -1,6 +1,6 @@
 #include "logger_manager.h"
 
-MYLIB_SPACE_BEGIN
+MYLIB_BEGIN
 
 LoggerManager::ptr LoggerManager::s_instance = nullptr;
 
@@ -81,4 +81,4 @@ Logger::ptr LoggerManager::get_logger(const String &name) {
   }
   return fd_res->second;
 }
-MYLIB_SPACE_END
+MYLIB_END

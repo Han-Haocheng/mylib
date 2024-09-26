@@ -379,3 +379,9 @@ packages
 
 /cmake-build-release
 /lib/mylibd-static.lib
+
+build/
+include/
+lib/
+vcpkg_installed/
+.idea/

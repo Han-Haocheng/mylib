@@ -1,6 +1,6 @@
 #include "logger.h"
 
-MYLIB_SPACE_BEGIN
+MYLIB_BEGIN
 
 Logger::ptr Logger::m_root_logger = nullptr;
 
@@ -81,4 +81,4 @@ Logger::ptr Logger::RootLogger() {
   }
   return m_root_logger;
 }
-MYLIB_SPACE_END
+MYLIB_END

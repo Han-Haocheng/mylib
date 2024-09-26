@@ -4,14 +4,14 @@
 #ifndef MYLIB_CONFIG_MANAGER_H_
 #define MYLIB_CONFIG_MANAGER_H_
 
-#include "../core/mylib_def.h"
+#include "../base/mylib_def.h"
 #include "config_value.h"
 
-MYLIB_SPACE_BEGIN
+MYLIB_BEGIN
 
-class ConfigManager {
+class Configurator {
 public:
-  using ptr = std::shared_ptr<ConfigManager>;
+  using ptr = std::shared_ptr<Configurator>;
 
   enum FileType
   {
@@ -19,17 +19,17 @@ public:
     FT_JSON,
   };
 
-  ConfigManager(const ConfigManager &) = delete;
-  ConfigManager(ConfigManager &&moved) noexcept = delete;
-  ~ConfigManager();
+  Configurator();
+  Configurator(const Configurator &) = delete;
+  Configurator(Configurator &&moved) noexcept = delete;
+  ~Configurator();
 
-  ConfigManager &operator=(const ConfigManager &) = delete;
-  ConfigManager &operator=(ConfigManager &&moved) noexcept = delete;
-
-  static ConfigManager::ptr GetInstance();
+  Configurator &operator=(const Configurator &) = delete;
+  Configurator &operator=(Configurator &&moved) noexcept = delete;
 
   bool loadFile(const String &filename);
-  bool saveFile(const String &file, FileType file_type);
+  bool saveFile(const String &file, FileType file_type = FT_JSON);
+
   //  template<class Ty,class const_ref = const Ty&>
   //  bool setConfig(const String &name, const_ref conf, const String &comment = "") {
   //  }
@@ -42,24 +42,22 @@ public:
   typename ConfigValue<Ty>::ptr getConfig(const String &key);
   bool delConfig(const String &key);
 
-private:
-  ConfigManager();
+  [[nodiscard]] const auto &getAllConfig() const { return m_configurators; }
 
+private:
   void analysis_yaml(const YAML::Node &rootNode);
   void analysis_json(const String &json);
   ConfigValueBase::ptr get_config_val_base(const String &key);
   bool conversion_yaml(std::ofstream &ofs);
 
-private:
-  std::unordered_map<String, ConfigValueBase::ptr, std::hash<std::string>> m_configurators;
-  static ConfigManager::ptr s_config_manager;
+  std::unordered_map<String, ConfigValueBase::ptr> m_configurators;
 };
 
 //======================================================================================
 
 template<class Ty>
-bool ConfigManager::setConfig(String name, const Ty &conf, const String &comment) {
-  auto fd_rt = m_configurators.find(name);
+bool Configurator::setConfig(String name, const Ty &conf, const String &comment) {
+  const auto fd_rt = m_configurators.find(name);
   ConfigValueBase::ptr value = std::make_shared<ConfigValue<Ty>>(name, conf, comment);
   if (fd_rt == m_configurators.end()) {
     m_configurators.emplace(name, value);
@@ -70,16 +68,16 @@ bool ConfigManager::setConfig(String name, const Ty &conf, const String &comment
 }
 
 template<>
-bool ConfigManager::setConfig<ConfigValueBase::ptr>(String name, const ConfigValueBase::ptr &conf, const String &comment) {
+inline bool Configurator::setConfig<ConfigValueBase::ptr>(String name, const ConfigValueBase::ptr &conf, const String &comment) {
   if (!conf) {
     return false;
   }
-  m_configurators.emplace(name, conf);
+  m_configurators.emplace(std::move(name), conf);
   return true;
 }
 
 template<class Ty>
-typename ConfigValue<Ty>::ptr ConfigManager::getConfig(const String &key) {
+typename ConfigValue<Ty>::ptr Configurator::getConfig(const String &key) {
   if (key.empty()) {
     return nullptr;
   }
@@ -87,7 +85,6 @@ typename ConfigValue<Ty>::ptr ConfigManager::getConfig(const String &key) {
   return std::dynamic_pointer_cast<ConfigValue<Ty>>(rt);
 }
 
-MYLIB_SPACE_END
+MYLIB_END
 
 #endif
-

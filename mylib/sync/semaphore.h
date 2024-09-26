@@ -5,7 +5,7 @@
 #ifndef MYLIB_SLN_SEMAPHORE_H
 #define MYLIB_SLN_SEMAPHORE_H
 
-#include "../core/mylib_def.h"
+#include "../base/mylib_def.h"
 
 #ifdef MYLIB_MSVC
 #include <ctime>
@@ -14,7 +14,7 @@
 #include <semaphore.h>
 #endif// MYLIB_MSVC
 
-MYLIB_SPACE_BEGIN
+MYLIB_BEGIN
 
 #if MYLIB_MSVC
 using semaphore_t = HANDLE;
@@ -55,6 +55,6 @@ private:
   semaphore_t m_sem;
 };
 
-MYLIB_SPACE_END
+MYLIB_END
 
 #endif//MYLIB_SLN_SEMAPHORE_H

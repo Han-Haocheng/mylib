@@ -1,6 +1,6 @@
 #include "log_event.h"
 
-MYLIB_SPACE_BEGIN
+MYLIB_BEGIN
 LogEvent::LogEvent(SourceInfo localInfo,
                    String loggerName,
                    String coroutineName,
@@ -19,4 +19,4 @@ LogEvent::LogEvent(SourceInfo localInfo,
       m_coroutine_name(std::move(coroutineName)) {
 }
 
-MYLIB_SPACE_END
+MYLIB_END

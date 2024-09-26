@@ -1,103 +1,68 @@
 #include "log_formatter.h"
-#include "../untils/string_converter.h"
+#include "../cast/string_cast.h"
 
-MYLIB_SPACE_BEGIN
+MYLIB_BEGIN
 
-template<>
-class StringConverter<LogEvent::value_type> {
-public:
-  using Ty = LogEvent::value_type;
-  static String toString(const Ty &ty) {
-    switch (ty) {
-      case Ty::LE_DEBUG:
-        return "Debug";
-      case Ty::LE_INFO:
-        return "Info";
-      case Ty::LE_WARN:
-        return "Warn";
-      case Ty::LE_ERROR:
-        return "Error";
-      default:
-        return "Unknown";
-    }
-  }
 
-  static Ty fromString(const String &ty) {
-    static std::unordered_map<String, Ty> s_map{
-#define XX(ABC, Abc, abc) \
-  {"LE_" #ABC, Ty::LE_##ABC}, {#ABC, Ty::LE_##ABC}, {#Abc, Ty::LE_##ABC}, {#abc, Ty::LE_##ABC}
-        XX(DEBUG, Debug, debug),
-        XX(INFO, Info, info),
-        XX(WARN, Warn, warn),
-        XX(ERROR, Error, error),
-#undef XX
-    };
-    try {
-      return s_map.at(ty);
-    } catch (std::out_of_range &) {
-      return Ty::LE_UNDEFINED;
-    }
-  }
-};
 
 // 字符串
-class StringFormatItem : public LogFormatter::FormatItem {
+class StringFormatItem : public FormatItem {
 public:
   constexpr static const CString FORMAT_STR = "";
   explicit StringFormatItem(String extendStr) : FormatItem(std::move(extendStr)) {}
   [[nodiscard]] String format(const LogEvent &event) const override { return m_extend; }
 };
 
-class MessageFormatItem : public LogFormatter::FormatItem {
+class MessageFormatItem : public FormatItem {
 public:
   constexpr static const CString FORMAT_STR = "%m";
   explicit MessageFormatItem(String extendStr) : FormatItem(std::move(extendStr)) {}
   [[nodiscard]] String format(const LogEvent &event) const override { return event.msg().str(); }
 };
 
-class TypeFormatItem : public LogFormatter::FormatItem {
+class TypeFormatItem : public FormatItem {
 public:
   constexpr static const CString FORMAT_STR = "%p";
   explicit TypeFormatItem(String extendStr) : FormatItem(std::move(extendStr)) {}
-  [[nodiscard]] String format(const LogEvent &event) const override { return StringConverter<LogEvent::value_type>::toString(event.getType()); }
+  [[nodiscard]] String format(const LogEvent &event) const override { return StringCast<LogEvent::value_type>::toString(event.getType()); }
 };
 
-class ElapseFormatItem : public LogFormatter::FormatItem {
+class ElapseFormatItem : public FormatItem {
 public:
   constexpr static const CString FORMAT_STR = "%r";
   explicit ElapseFormatItem(String extendStr) : FormatItem(std::move(extendStr)) {}
   [[nodiscard]] String format(const LogEvent &event) const override { return "<elapse>"; }
 };
 
-class LoggerNameFormatItem : public LogFormatter::FormatItem {
+class LoggerNameFormatItem : public FormatItem {
 public:
   constexpr static const CString FORMAT_STR = "%c";
   explicit LoggerNameFormatItem(String extendStr) : FormatItem(std::move(extendStr)) {}
   [[nodiscard]] String format(const LogEvent &event) const override { return event.getLoggerName(); }
 };
 
-class FileFormatItem : public LogFormatter::FormatItem {
+class FileFormatItem : public FormatItem {
 public:
   constexpr static const CString FORMAT_STR = "%f";
   explicit FileFormatItem(String extendStr) : FormatItem(std::move(extendStr)) {}
   [[nodiscard]] String format(const LogEvent &event) const override { return event.getFile(); }
 };
 
-class LineFormatItem : public LogFormatter::FormatItem {
+class LineFormatItem : public FormatItem {
 public:
   constexpr static const CString FORMAT_STR = "%l";
   explicit LineFormatItem(String extendStr) : FormatItem(std::move(extendStr)) {}
   [[nodiscard]] String format(const LogEvent &event) const override { return std::to_string(event.getLine()); }
 };
 
-class NewLineFormatItem : public LogFormatter::FormatItem {
+class NewLineFormatItem : public FormatItem {
 public:
   constexpr static const CString FORMAT_STR = "%n";
   explicit NewLineFormatItem(String extendStr) : FormatItem(std::move(extendStr)) {}
   [[nodiscard]] String format(const LogEvent &event) const override { return "\n"; }
 };
 
-class TabFormatItem : public LogFormatter::FormatItem {
+class TabFormatItem : public FormatItem {
 public:
   constexpr static const CString FORMAT_STR = "%T";
   explicit TabFormatItem(String extendStr) : FormatItem(std::move(extendStr)) {}
@@ -106,7 +71,7 @@ public:
 
 // 异步相关
 //时间
-class DateTimeFormatItem : public LogFormatter::FormatItem {
+class DateTimeFormatItem : public FormatItem {
 public:
   constexpr static const CString FORMAT_STR = "%d";
   explicit DateTimeFormatItem(String extendStr = "%Y-%m-%d %H-%M-%S") : FormatItem(std::move(extendStr)) {}
@@ -125,14 +90,14 @@ public:
 };
 
 // 线程id
-class ThreadIdFormatItem : public LogFormatter::FormatItem {
+class ThreadIdFormatItem : public FormatItem {
 public:
   constexpr static const CString FORMAT_STR = "%t";
   explicit ThreadIdFormatItem(String extendStr) : FormatItem(std::move(extendStr)) {}
   [[nodiscard]] String format(const LogEvent &event) const override { return std::to_string(event.getThreadId()); }
 };
 
-class ThreadNameFormatItem : public LogFormatter::FormatItem {
+class ThreadNameFormatItem : public FormatItem {
 public:
   constexpr static const CString FORMAT_STR = "%N";
   explicit ThreadNameFormatItem(String extendStr) : FormatItem(std::move(extendStr)) {}
@@ -143,13 +108,14 @@ public:
 };
 
 // 协程
-class CoroutineIdFormatItem : public LogFormatter::FormatItem {
+class CoroutineIdFormatItem : public FormatItem {
 public:
   constexpr static const CString FORMAT_STR = "%F";
   explicit CoroutineIdFormatItem(String extendStr) : FormatItem(std::move(extendStr)) {}
   [[nodiscard]] String format(const LogEvent &event) const override { return std::to_string(event.getCoroutineId()); }
 };
-class CoroutineNameFormatItem : public LogFormatter::FormatItem {
+
+class CoroutineNameFormatItem : public FormatItem {
 public:
   constexpr static const CString FORMAT_STR = "%C";
   explicit CoroutineNameFormatItem(String extendStr) : FormatItem(std::move(extendStr)) {}
@@ -291,4 +257,4 @@ void LogFormatter::_parse_pattern() {
     m_items.emplace_back(fd_res->second(format.extend));
   }
 }
-MYLIB_SPACE_END
+MYLIB_END

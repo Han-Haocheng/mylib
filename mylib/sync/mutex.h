@@ -5,7 +5,7 @@
 #ifndef MYLIB_SLN_MUTEX_H
 #define MYLIB_SLN_MUTEX_H
 
-#include "../core/mylib_def.h"
+#include "../base/mylib_def.h"
 
 #ifdef MYLIB_MSVC
 #include <windows.h>
@@ -13,7 +13,7 @@
 #include <pthread.h>
 #endif// MYLIB_MSVC
 
-MYLIB_SPACE_BEGIN
+MYLIB_BEGIN
 
 #ifdef MYLIB_MSVC
 using mutex_t = HANDLE;
@@ -43,5 +43,5 @@ private:
   mutex_t m_mutex;
 };
 
-MYLIB_SPACE_END
+MYLIB_END
 #endif//MYLIB_SLN_MUTEX_H

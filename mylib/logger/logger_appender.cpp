@@ -1,7 +1,7 @@
 #include "logger_appender.h"
 #include <iostream>
 
-MYLIB_SPACE_BEGIN
+MYLIB_BEGIN
 
 void ConsoleAppender::append(const LogEvent &event) {
   if (event.getType() < m_type) return;
@@ -40,4 +40,4 @@ void FileAppender::try_open_file() {
 LogAppender::LogAppender(LogEvent::value_type type, LogFormatter::ptr formatter)
     : m_type(type), m_formatter(std::move(formatter)) {}
 
-MYLIB_SPACE_END
+MYLIB_END

@@ -1,9 +1,9 @@
 #pragma once
 
 #include "../container/list.h"
-#include "../core/mylib_def.h"
+#include "../base/mylib_def.h"
 
-MYLIB_SPACE_BEGIN
+MYLIB_BEGIN
 
 using iterator = int *;
 
@@ -16,4 +16,4 @@ struct find {
 struct find_if {
 };
 
-MYLIB_SPACE_END
+MYLIB_END

@@ -9,9 +9,9 @@
 
 #include "../sync/spinlock.h"
 
-MYLIB_SPACE_BEGIN
+MYLIB_BEGIN
 
-#define MYLIB_ROOT_LOGGER MYLIB::Logger::RootLogger()
+#define MYLIB_ROOT_LOGGER MYLIB_SPACE::Logger::RootLogger()
 
 class Logger {
 public:
@@ -49,5 +49,5 @@ private:
 
   static Logger::ptr m_root_logger;
 };
-MYLIB_SPACE_END
+MYLIB_END
 #endif// MYLIB_LOGGER_H_
