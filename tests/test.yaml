@@ -1,0 +1,26 @@
+﻿root:
+  vec_1:
+    - 1
+    - 2
+    - 3
+  map_1:
+    ele_1: 1
+    ele_2: 2
+  vec_2:
+    - ele_1: 1
+      ele_2: 2
+    - ele_3: 3
+      ele_4: 2
+root_1:
+  vec_1:
+    - 11
+    - 21
+    - 31
+  map_1:
+    ele_1: 11
+    ele_2: 21
+  vec_2:
+    - ele_1: 11
+      ele_2: 21
+    - ele_3: 31
+      ele_4: 21
