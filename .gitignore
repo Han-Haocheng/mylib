@@ -385,3 +385,4 @@ include/
 lib/
 vcpkg_installed/
 .idea/
+/.$mylib.drawio.bkp
