@@ -35,5 +35,13 @@ find_package(yaml-cpp CONFIG REQUIRED)
 find_package(GTest CONFIG REQUIRED)
 find_package(jsoncpp CONFIG REQUIRED)
 
-add_subdirectory(mylib)
+# add_subdirectory(mylib)
 add_subdirectory(tests)
+
+add_subdirectory(core)
+add_subdirectory(config)
+add_subdirectory(log)
+add_subdirectory(thread)
+add_subdirectory(schedule)
+
+
