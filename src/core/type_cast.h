@@ -1,4 +1,4 @@
-#ifndef MYLIB_CONVERTER_H
+﻿#ifndef MYLIB_CONVERTER_H
 #define MYLIB_CONVERTER_H
 #include "define.h"
 

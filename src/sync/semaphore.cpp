@@ -60,7 +60,7 @@ void Semaphore::wait_semaphore() {
 
 void Semaphore::timedwait_semaphore(const timespec &ts) {
 #ifdef MYLIB_MSVC
-  switch (WaitForSingleObject(m_sem, ts.tv_sec * 1000 + ts.tv_nsec / 1000000)) {
+  switch (WaitForSingleObject(m_sem, DWORD(ts.tv_sec * 1000 + ts.tv_nsec / 1000000))) {
     case WAIT_OBJECT_0:
       return;
     case WAIT_TIMEOUT:

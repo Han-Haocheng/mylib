@@ -1,4 +1,4 @@
-#include "log_event.h"
+﻿#include "log_event.h"
 
 MYLIB_BEGIN
 LogEvent::LogEvent(SourceInfo localInfo,

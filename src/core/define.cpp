@@ -1,4 +1,4 @@
-#include "core.h"
+﻿#include "core.h"
 
 MYLIB_BEGIN
 

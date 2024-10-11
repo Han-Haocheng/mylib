@@ -1,4 +1,4 @@
-#ifndef MYLIB_DEF_H_
+﻿#ifndef MYLIB_DEF_H_
 #define MYLIB_DEF_H_
 #include <cinttypes>
 #include <sstream>

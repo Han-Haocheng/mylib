@@ -1,6 +1,6 @@
-#pragma once
-#include "../thread/coroutine.h"
-#include "../thread/thread.h"
+﻿#pragma once
+#include "coroutine.h"
+#include "thread.h"
 #include "../sync/sync.h"
 #include "../core/core.h"
 #include <forward_list>

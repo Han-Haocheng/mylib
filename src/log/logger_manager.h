@@ -1,4 +1,4 @@
-#ifndef MYLIB_LOGGER_MANAGER_H
+﻿#ifndef MYLIB_LOGGER_MANAGER_H
 #define MYLIB_LOGGER_MANAGER_H
 
 #include "logger.h"

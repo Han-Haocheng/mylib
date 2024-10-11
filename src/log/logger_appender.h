@@ -1,4 +1,4 @@
-#ifndef MYLIB_LOGGER_APPENDER_H_
+﻿#ifndef MYLIB_LOGGER_APPENDER_H_
 #define MYLIB_LOGGER_APPENDER_H_
 
 #include "log_event.h"

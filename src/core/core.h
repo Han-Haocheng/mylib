@@ -1,4 +1,4 @@
-#ifndef MYLIB_CORE_CORE_H_
+﻿#ifndef MYLIB_CORE_CORE_H_
 #define MYLIB_CORE_CORE_H_
 
 

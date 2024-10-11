@@ -1,4 +1,4 @@
-#ifndef MEDIA_AV_STREAM_H_
+﻿#ifndef MEDIA_AV_STREAM_H_
 #define MEDIA_AV_STREAM_H_
 
 #include "../core/core.h"

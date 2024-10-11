@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "../core/core.h"
 
 MYLIB_BEGIN

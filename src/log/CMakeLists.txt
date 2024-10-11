@@ -17,6 +17,7 @@ endforeach ()
 
 add_library(${MODEL_NAME} STATIC ${MODEL_SOURCES})
 target_link_libraries(${MODEL_NAME} PUBLIC core)
+target_link_libraries(${MODEL_NAME} PRIVATE JsonCpp::JsonCpp yaml-cpp::yaml-cpp)
 
 message(STATUS ">>>> [${MODEL_NAME}] create finish.\n\n")
 

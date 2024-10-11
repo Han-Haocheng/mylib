@@ -1,4 +1,4 @@
-#include "logger_appender.h"
+﻿#include "logger_appender.h"
 #include <iostream>
 
 MYLIB_BEGIN

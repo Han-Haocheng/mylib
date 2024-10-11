@@ -1,4 +1,4 @@
-#include "logger_manager.h"
+﻿#include "logger_manager.h"
 
 MYLIB_BEGIN
 

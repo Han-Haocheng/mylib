@@ -1,4 +1,4 @@
-#include "algorithm.h"
+﻿#include "algorithm.h"
 
 #include <ctime>
 

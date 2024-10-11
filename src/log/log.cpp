@@ -4,7 +4,7 @@
 
 #include "log.h"
 
-#include "../thread/thread.h"
+#include "../concurrent/thread.h"
 
 #include <iostream>
 #include <memory>

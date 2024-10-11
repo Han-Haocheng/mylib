@@ -1,4 +1,4 @@
-#ifndef MYLIB_SYNC_H_
+﻿#ifndef MYLIB_SYNC_H_
 #define MYLIB_SYNC_H_
 
 #include "mutex.h"

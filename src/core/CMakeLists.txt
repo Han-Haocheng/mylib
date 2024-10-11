@@ -16,7 +16,7 @@ foreach (SOURCE_FILE ${MODEL_SOURCES})
 endforeach ()
 
 add_library(${MODEL_NAME} STATIC ${MODEL_SOURCES})
-target_link_libraries(${MODEL_NAME} PUBLIC DbgHelp JsonCpp::JsonCpp yaml-cpp::yaml-cpp Boost::lexical_cast)
+target_link_libraries(${MODEL_NAME} PRIVATE DbgHelp JsonCpp::JsonCpp yaml-cpp::yaml-cpp Boost::lexical_cast)
 
 message(STATUS ">>>> [${MODEL_NAME}] create finish.\n\n")
 

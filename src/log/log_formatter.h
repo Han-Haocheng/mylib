@@ -1,4 +1,4 @@
-#ifndef MYLIB_LOG_FORMATTER_H_
+﻿#ifndef MYLIB_LOG_FORMATTER_H_
 #define MYLIB_LOG_FORMATTER_H_
 
 #include "../sync/sync.h"

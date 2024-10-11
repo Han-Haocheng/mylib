@@ -1,4 +1,4 @@
-#ifndef MYLIB_COROUTINE_H
+﻿#ifndef MYLIB_COROUTINE_H
 #define MYLIB_COROUTINE_H
 #include "../core/core.h"
 

@@ -1,4 +1,4 @@
-#include "log_formatter.h"
+﻿#include "log_formatter.h"
 
 MYLIB_BEGIN
 

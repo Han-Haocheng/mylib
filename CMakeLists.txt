@@ -36,12 +36,12 @@ find_package(GTest CONFIG REQUIRED)
 find_package(jsoncpp CONFIG REQUIRED)
 
 # add_subdirectory(mylib)
-add_subdirectory(tests)
+add_subdirectory(src/tests)
 
-add_subdirectory(core)
-add_subdirectory(config)
-add_subdirectory(log)
-add_subdirectory(thread)
-add_subdirectory(schedule)
+add_subdirectory(src/core)
+add_subdirectory(src/config)
+add_subdirectory(src/log)
+add_subdirectory(src/thread)
+add_subdirectory(src/schedule)
 
 

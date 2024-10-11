@@ -71,35 +71,39 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IntDir>$(SolutionDir)build\vs2022_$(Configuration)\Intermediate\</IntDir>
+    <IntDir>$(SolutionDir)build\vs2022_$(Configuration)\$(ProjectName)\</IntDir>
     <OutDir>$(SolutionDir)bin\$(LibrariesArchitecture)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IntDir>$(SolutionDir)build\vs2022_$(Configuration)\Intermediate\</IntDir>
+    <IntDir>$(SolutionDir)build\vs2022_$(Configuration)\$(ProjectName)\</IntDir>
     <OutDir>$(SolutionDir)bin\$(LibrariesArchitecture)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IntDir>$(SolutionDir)build\vs2022_$(Configuration)\Intermediate\</IntDir>
+    <IntDir>$(SolutionDir)build\vs2022_$(Configuration)\$(ProjectName)\</IntDir>
     <OutDir>$(SolutionDir)bin\$(LibrariesArchitecture)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IntDir>$(SolutionDir)build\vs2022_$(Configuration)\Intermediate\</IntDir>
+    <IntDir>$(SolutionDir)build\vs2022_$(Configuration)\$(ProjectName)\</IntDir>
     <OutDir>$(SolutionDir)bin\$(LibrariesArchitecture)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Label="Vcpkg">
     <VcpkgEnableManifest>true</VcpkgEnableManifest>
   </PropertyGroup>
   <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <VcpkgInstalledDir>build/vcpkg_install</VcpkgInstalledDir>
+    <VcpkgInstalledDir>$(IntDir)build\vcpkg_install\</VcpkgInstalledDir>
+    <VcpkgUseStatic>false</VcpkgUseStatic>
   </PropertyGroup>
   <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <VcpkgInstalledDir>build/vcpkg_install</VcpkgInstalledDir>
+    <VcpkgInstalledDir>$(IntDir)build\vcpkg_install\</VcpkgInstalledDir>
+    <VcpkgUseStatic>false</VcpkgUseStatic>
   </PropertyGroup>
   <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <VcpkgInstalledDir>build/vcpkg_install</VcpkgInstalledDir>
+    <VcpkgInstalledDir>$(IntDir)build\vcpkg_install\</VcpkgInstalledDir>
+    <VcpkgUseStatic>false</VcpkgUseStatic>
   </PropertyGroup>
   <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <VcpkgInstalledDir>build/vcpkg_install</VcpkgInstalledDir>
+    <VcpkgInstalledDir>$(IntDir)build\vcpkg_install\</VcpkgInstalledDir>
+    <VcpkgUseStatic>false</VcpkgUseStatic>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

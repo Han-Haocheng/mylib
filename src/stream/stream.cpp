@@ -1,4 +1,4 @@
-#include "stream.h"
+﻿#include "stream.h"
 
 #include "../core/core.h"
 

@@ -1,4 +1,4 @@
-//
+﻿//
 // Created by HanHaocheng on 2024/6/5.
 //
 
@@ -10,7 +10,7 @@
 #include "../sync/sync.h"
 #include "../config/config_manager.h"
 #include "../log/log.h"
-#include "../thread/thread.h"
+#include "../concurrent/thread.h"
 
 
 #endif//MYLIB_SLN_INCLUDE_H
