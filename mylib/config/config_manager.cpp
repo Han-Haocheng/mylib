@@ -30,9 +30,9 @@ bool Configurator::loadFile(const String &filename) {
       analysis_json(filename);
       return true;
     }
-
   } catch (const YAML::BadFile &e) {
-  } catch (...) {}
+
+  }
   return false;
 }
 
@@ -48,6 +48,7 @@ bool Configurator::saveFile(const String &file, FileType file_type) {
       conversion_yaml(ofs);
       return true;
     case FT_JSON:
+      // conversion_json(ofs);
       ofs << "";
       return true;
   }
@@ -55,9 +56,14 @@ bool Configurator::saveFile(const String &file, FileType file_type) {
 }
 
 bool Configurator::delConfig(const String &key) {
-  if (key.empty()) { return false; }
+  if (key.empty()) {
+    return false;
+  }
+
   const auto fd_rt = m_configurators.find(key);
-  if (fd_rt == m_configurators.end()) { return false; }
+  if (fd_rt == m_configurators.end()) {
+    return false;
+  }
   m_configurators.erase(fd_rt);
   return true;
 }
