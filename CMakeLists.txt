@@ -27,12 +27,37 @@ if (MSVC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /wd4819")
 endif ()
 
-find_package(Boost CONFIG COMPONENTS lexical_cast)
+find_package(Boost CONFIG REQUIRED COMPONENTS lexical_cast)
+if(Boost_FOUND)
+    message(STATUS "√ Boost")
+else()
+    message(FATAL_ERROR "× Boost")
+endif()
+
 find_package(yaml-cpp CONFIG REQUIRED)
+if(yaml-cpp_FOUND)
+    message(STATUS "√ yaml-cpp")
+else()
+    message(FATAL_ERROR "× yaml-cpp")
+endif()
+
 find_package(jsoncpp CONFIG REQUIRED)
+if(jsoncpp_FOUND)
+    message(STATUS "√ jsoncpp")
+else()
+    message(FATAL_ERROR "× jsoncpp")
+endif()
+
 find_package(GTest CONFIG REQUIRED)
+if(GTest_FOUND)
+    message(STATUS "√ GTest")
+else()
+    message(FATAL_ERROR "× GTest")
+endif()
+
 
 set(PROJECT_MODEL_LIST CACHE INTERNAL "${PROJECT_NAME} model list")
+
 
 ## 添加子目录，构建mylib/core
 #add_subdirectory(src/core)
@@ -42,25 +67,15 @@ set(PROJECT_MODEL_LIST CACHE INTERNAL "${PROJECT_NAME} model list")
 #add_subdirectory(src/config)
 ## 添加子目录，构建mylib/log
 #add_subdirectory(src/log)
+# 设置安装前缀为当前源码目录下的out文件夹
+set(CMAKE_INSTALL_PREFIX ${CMAKE_CURRENT_SOURCE_DIR}/out/${CMAKE_BUILD_TYPE})
+
 
 add_subdirectory(src)
 # 添加子目录，构建测试
 add_subdirectory(tests)
 
-# 设置安装前缀为当前源码目录下的out文件夹
-set(CMAKE_INSTALL_PREFIX ${CMAKE_CURRENT_SOURCE_DIR}/out/${CMAKE_BUILD_TYPE})
-#message(FATAL_ERROR ${CMAKE_BUILD_TYPE})
 
-foreach (MODEL_NAME ${PROJECT_MODEL_LIST})
-    message(STATUS ">>>>>>> install model<${MODEL_NAME}>")
-    install(TARGETS ${MODEL_NAME}
-            EXPORT ${PROJECT_NAME}Targets
-            LIBRARY DESTINATION lib
-            ARCHIVE DESTINATION lib
-            RUNTIME DESTINATION bin
-            PUBLIC_HEADER DESTINATION include/${MODEL_NAME}
-    )
-endforeach ()
 
 # 包含CMake包配置帮助模块
 include(CMakePackageConfigHelpers)

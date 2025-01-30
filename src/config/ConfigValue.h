@@ -3,7 +3,8 @@
 //
 #pragma once
 
-#include "../core/core.h"
+#include "../core.h"
+#include "../convert/type_cast.h"
 
 #include <memory>
 #include <type_traits>
@@ -30,10 +31,12 @@ public:
 	void setComment(const String &mComment);
 	void setName(const String &mConfigName);
 
+protected:
+	String m_type_name;
+
 private:
 	String m_name;
 	String m_comment;
-	String m_type_name;
 };
 
 /**
@@ -54,7 +57,6 @@ public:
 	explicit ConfigValue(String name, const value_type &val, String comment);
 	explicit ConfigValue(String name, value_type &&conf, String comment);
 	~ConfigValue() override = default;
-
 
 	void setValue(value_type &&val);
 	void setValue(const value_type &val);
@@ -77,42 +79,43 @@ private:
 
 //=========================================================================================
 template<typename ConfTy, typename CastFunc>
-inline ConfigValue<ConfTy, CastFunc>::ConfigValue(String name, const value_type &val, String comment)
+ConfigValue<ConfTy, CastFunc>::ConfigValue(String name, const value_type &val, String comment)
 	: ConfigValueBasic(std::move(name), std::move(comment), typeid(value_type).name()), m_value(val) {}
 
 template<typename ConfTy, typename CastFunc>
-inline ConfigValue<ConfTy, CastFunc>::ConfigValue(String name, value_type &&conf, String comment)
+ConfigValue<ConfTy, CastFunc>::ConfigValue(String name, value_type &&conf, String comment)
 	: ConfigValueBasic(std::move(name), std::move(comment), typeid(value_type).name()), m_value(std::move(conf)) {}
 
 template<typename ConfTy, typename CastFunc>
-inline void ConfigValue<ConfTy, CastFunc>::setValue(const value_type &val) { m_value = val; }
+void ConfigValue<ConfTy, CastFunc>::setValue(const value_type &val) { m_value = val; }
 
 template<typename ConfTy, typename CastFunc>
-inline void ConfigValue<ConfTy, CastFunc>::setValue(value_type &&val) { m_value = val; }
+void ConfigValue<ConfTy, CastFunc>::setValue(value_type &&val) { m_value = val; }
 
 template<typename ConfTy, typename CastFunc>
-inline typename ConfigValue<ConfTy, CastFunc>::value_type &ConfigValue<ConfTy, CastFunc>::value() { return m_value; }
+typename ConfigValue<ConfTy, CastFunc>::value_type &ConfigValue<ConfTy, CastFunc>::value() { return m_value; }
 
 template<typename ConfTy, typename CastFunc>
-[[nodiscard]] inline const typename ConfigValue<ConfTy, CastFunc>::value_type &ConfigValue<ConfTy, CastFunc>::value() const { return m_value; }
+[[nodiscard]] const typename ConfigValue<ConfTy, CastFunc>::value_type &ConfigValue<ConfTy, CastFunc>::value() const { return m_value; }
 
 template<typename ConfTy, typename CastFunc>
-[[nodiscard]] inline String ConfigValue<ConfTy, CastFunc>::toString() const {
+[[nodiscard]] String ConfigValue<ConfTy, CastFunc>::toString() const {
 	return cast_func::toString(m_value);
 }
 
 template<typename ConfTy, typename CastFunc>
-inline void ConfigValue<ConfTy, CastFunc>::fromString(String string) { m_value = cast_func::fromString(string); }
+void ConfigValue<ConfTy, CastFunc>::fromString(String string) { m_value = cast_func::fromString(string); }
 
 template<typename ConfTy, typename CastFunc>
 template<class AsType>
-[[nodiscard]] inline const AsType &ConfigValue<ConfTy, CastFunc>::as() const {
-	if constexpr (std::is_same<value_type, AsType>::value) {
+[[nodiscard]] const AsType &ConfigValue<ConfTy, CastFunc>::as() const {
+	if constexpr (std::is_same_v<value_type, AsType>) {
 		return m_value;
-	} else if constexpr (std::is_same<String, AsType>::value) {
+	} else if constexpr (std::is_same_v<String, AsType>) {
 		return cast_func::toString(m_value);
 	}
 	//static_assert(false, "static error: unknown error");
+	return {};
 }
 template<typename ConfTy, typename CastFunc>
 template<class AsType, class Converter, typename>
@@ -120,4 +123,3 @@ template<class AsType, class Converter, typename>
 	return Converter::cast(m_value);
 }
 MYLIB_END
-

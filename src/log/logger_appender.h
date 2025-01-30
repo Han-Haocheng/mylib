@@ -4,7 +4,7 @@
 #include "log_event.h"
 #include "log_formatter.h"
 
-#include "../task/task.h"
+#include "../task.h"
 
 
 #include <fstream>

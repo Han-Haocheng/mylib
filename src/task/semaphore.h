@@ -5,7 +5,7 @@
 #ifndef MYLIB_SLN_SEMAPHORE_H
 #define MYLIB_SLN_SEMAPHORE_H
 
-#include "../core/core.h"
+#include "../core.h"
 
 #ifdef MYLIB_WINDOWS
 #include <ctime>

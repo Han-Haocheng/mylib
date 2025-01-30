@@ -57,11 +57,13 @@ public:
 
 	void show() const;
 
-	CString what() const noexcept override;
+	[[nodiscard]] CString what() const noexcept override;
+
+	[[nodiscard]] String what_string() const noexcept;
 
 
 private:
-	CString m_what;
+	String m_what;
 	SourceInfo m_info;
 	std::vector<ExceptFuncInfo> m_stack_back;
 };

@@ -1,7 +1,9 @@
 ﻿#ifndef MYLIB_LOG_FORMATTER_H_
 #define MYLIB_LOG_FORMATTER_H_
 
-#include "../task/task.h"
+#include "../task.h"
+
+
 #include "log_event.h"
 
 #include <functional>

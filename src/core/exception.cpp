@@ -79,25 +79,32 @@ Exception::Exception(SourceInfo info, String what)
 	: std::exception(what.c_str()),
 #elif MYLIB_GUN
 	: std::exception(),
-	  m_what(what.c_str()),
+	  m_what(std::move(what)),
 #endif
 	  m_info(std::move(info)),
 	  m_stack_back() {
 	CaptureStackBack(m_stack_back, 1);
+	SString ss;
+	ss << m_what << "\n";
+	for (const auto &item: m_stack_back) {
+		ss << "\tat (" << item.addr << ") " << item.name << "\n";
+	}
+	m_what.clear();
+	m_what = ss.str();
 }
 
 Exception::~Exception() noexcept = default;
 
 void Exception::show() const {
-	SString ss;
-	ss << what();
-	for (const auto &item: m_stack_back) {
-		ss << "\tat (" << item.addr << ") " << item.name << "\n";
-	}
-	printf("%s", ss.str().c_str());
+	printf("%s", m_what.c_str());
 }
 
-CString Exception::what() const noexcept  {
+CString Exception::what() const noexcept {
+	return m_what.c_str();
+}
+
+String Exception::what_string() const noexcept {
 	return m_what;
 }
+
 MYLIB_END

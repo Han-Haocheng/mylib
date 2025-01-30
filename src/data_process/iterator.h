@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "../core/core.h"
+#include "../core.h"
 
 MYLIB_BEGIN
 using ptrdiff_t = long long;

@@ -4,6 +4,8 @@
 
 #include "mutex.h"
 
+#include <atomic>
+
 
 MYLIB_BEGIN
 

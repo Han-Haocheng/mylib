@@ -1,7 +1,8 @@
 ﻿#ifndef MYLIB_LOG_EVENT_H_
 #define MYLIB_LOG_EVENT_H_
 
-#include "../core/core.h"
+#include "../core.h"
+#include "../convert/type_cast.h"
 
 #include <memory>
 #include <stdexcept>

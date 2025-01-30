@@ -37,22 +37,29 @@ bool Configurator::loadFile(const String &filename) {
 }
 
 bool Configurator::saveFile(const String &file, FileType file_type) {
-  if (file.empty()) { return false; }
-  std::ofstream ofs{file, std::ios::out};
-  if (!ofs.is_open()) {
-    //todo error
-    return false;
-  }
-  switch (file_type) {
-    case FT_YAML:
-      conversion_yaml(ofs);
-      return true;
-    case FT_JSON:
-      // conversion_json(ofs);
-      ofs << "";
-      return true;
-  }
-  return false;
+	if (file.empty()) { return false; }
+	std::ofstream ofs{file, std::ios::out};
+	if (!ofs.is_open()) {
+		//todo error
+		return false;
+	}
+	switch (file_type) {
+		case FT_YAML:
+			conversion_yaml(ofs);
+			return true;
+		case FT_JSON:
+			// conversion_json(ofs);
+			ofs << "";
+			return true;
+	}
+	return false;
+}
+bool Configurator::setConfig(String name, const ConfigValueBasic::ptr &conf) {
+	if (!conf) {
+		return false;
+	}
+	m_configurators.emplace(std::move(name), conf);
+	return true;
 }
 
 bool Configurator::delConfig(const String &key) {

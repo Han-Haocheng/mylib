@@ -2,12 +2,10 @@
 #define MYLIB_CORE_CORE_H_
 
 
+#include "core/algorithm.h"
+#include "core/define.h"
 
-#include "define.h"
-#include "algorithm.h"
-#include "type_cast.h"
-
-#include "exception.h"
+#include "core/exception.h"
 
 
 #endif // MYLIB_CORE_CORE_H_

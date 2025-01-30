@@ -7,7 +7,7 @@
 #include "log_formatter.h"
 #include "logger_appender.h"
 
-#include "../task/task.h"
+#include "../task.h"
 
 MYLIB_BEGIN
 

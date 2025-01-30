@@ -1,7 +1,8 @@
 ﻿#ifndef MYLIB_THREAD_H_
 #define MYLIB_THREAD_H_
 
-#include "../core/core.h"
+#include "../core.h"
+
 #include <functional>
 
 #ifdef MYLIB_WINDOWS
