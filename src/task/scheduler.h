@@ -44,11 +44,6 @@ public:
 		return true;
 	}
 
-	int test(std::vector<int> a) {
-		for (int i = 0; i < a.size(); ++i) {
-			a[i] += 1;
-		}
-	}
 
 	bool empty() const { return !m_co; }
 

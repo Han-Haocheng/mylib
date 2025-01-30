@@ -8,7 +8,10 @@
 #include "../core.h"
 
 #ifdef MYLIB_WINDOWS
-#include <windows.h>
+#include <Windows.h>
+
+#include <synchapi.h>
+#pragma comment(lib, "Kernel32.lib")
 #elif MYLIB_LINXU
 #include <pthread.h>
 #endif// MYLIB_WINDOWS

@@ -68,16 +68,17 @@ public:
 	void fromString(String string) override;
 
 	template<class AsType = value_type>
-	[[nodiscard]] const AsType &as() const;
+	[[nodiscard]] AsType as() const;
 
 	template<class AsType, class Converter = Cast<value_type, AsType>, typename = std::enable_if_t<!std::is_same_v<AsType, value_type>>>
-	[[nodiscard]] const AsType &as() const;
+	[[nodiscard]] AsType as() const;
 
 private:
 	value_type m_value;
 };
 
 //=========================================================================================
+
 template<typename ConfTy, typename CastFunc>
 ConfigValue<ConfTy, CastFunc>::ConfigValue(String name, const value_type &val, String comment)
 	: ConfigValueBasic(std::move(name), std::move(comment), typeid(value_type).name()), m_value(val) {}
@@ -108,18 +109,19 @@ void ConfigValue<ConfTy, CastFunc>::fromString(String string) { m_value = cast_f
 
 template<typename ConfTy, typename CastFunc>
 template<class AsType>
-[[nodiscard]] const AsType &ConfigValue<ConfTy, CastFunc>::as() const {
+[[nodiscard]] AsType ConfigValue<ConfTy, CastFunc>::as() const {
 	if constexpr (std::is_same_v<value_type, AsType>) {
 		return m_value;
 	} else if constexpr (std::is_same_v<String, AsType>) {
 		return cast_func::toString(m_value);
 	}
 	//static_assert(false, "static error: unknown error");
-	return {};
+	return AsType{};
 }
+
 template<typename ConfTy, typename CastFunc>
 template<class AsType, class Converter, typename>
-[[nodiscard]] inline const AsType &ConfigValue<ConfTy, CastFunc>::as() const {
+[[nodiscard]] inline AsType ConfigValue<ConfTy, CastFunc>::as() const {
 	return Converter::cast(m_value);
 }
 MYLIB_END

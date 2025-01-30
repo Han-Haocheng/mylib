@@ -14,7 +14,7 @@ set(VCPKG_TARGET_TRIPLET "x64-mingw-static" CACHE STRING "")
 # 设置项目版本号
 set(mylib_VERSION 0.4.0.20241117)
 # 定义项目名称和版本
-project(mylib VERSION ${mylib_VERSION})
+project(mylib VERSION ${mylib_VERSION} LANGUAGES C CXX)
 include(cmake/initialize_module.cmake)
 
 # 设置C++标准为17
@@ -23,9 +23,17 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMAKE_CXX_EXTENSIONS False)
 
 # 如果是MSVC编译器，则添加编译器标志以禁用特定警告
-if (MSVC)
+message(STATUS "C编译器：${CMAKE_C_COMPILER_ID}" )
+message(STATUS "系统：${CMAKE_SYSTEM_NAME}")
+message(STATUS "C++编译器：${CMAKE_CXX_COMPILER_ID}" )
+
+if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /wd4819")
 endif ()
+
+if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    add_definitions(-D_WIN32_WINNT=0x0600)
+endif()
 
 find_package(Boost CONFIG REQUIRED COMPONENTS lexical_cast)
 if(Boost_FOUND)
@@ -74,7 +82,6 @@ set(CMAKE_INSTALL_PREFIX ${CMAKE_CURRENT_SOURCE_DIR}/out/${CMAKE_BUILD_TYPE})
 add_subdirectory(src)
 # 添加子目录，构建测试
 add_subdirectory(tests)
-
 
 
 # 包含CMake包配置帮助模块

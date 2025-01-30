@@ -74,7 +74,7 @@ TEST(TestConfig, base) {
       std::cout << "vector1 : " << item << std::endl;
     }
   } catch (...) {
-    std::cout << "error" << std::endl;
+    MYLIB_THROW("config error: unknow error");
   }
 }
 

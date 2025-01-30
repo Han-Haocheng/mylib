@@ -14,7 +14,6 @@
 #pragma warning(pop)
 
 #include <forward_list>
-#include <iostream>
 #include <list>
 #include <map>
 #include <set>
@@ -271,7 +270,9 @@ typename YamlCast<std::map<std::string, Ty>>::cast_t YamlCast<std::map<std::stri
 template<typename Ty>
 String YamlCast<std::map<std::string, Ty>>::toString(const cast_t &ty) {
 	YAML::Node node;
-	for (const auto &ele: ty) { node[ele.first] = YamlCast<value_t>::toString(ele.second); }
+	for (const auto &ele: ty) { 
+		node[ele.first] = YamlCast<value_t>::toString(ele.second); 
+	}
 	return Dump(node);
 }
 template<typename Ty>

@@ -385,10 +385,5 @@ include/
 lib/
 vcpkg_installed/
 .idea/
-/src/_old/media/av_stream.cpp
-/src/_old/media/av_stream.h
-/src/_old/myai/CMakeLists.txt
-/src/_old/myai/myai.vcxproj
-/src/_old/myai/myai.vcxproj.filters
-/src/_old/stream/stream.cpp
-/src/_old/stream/stream.h
+
+*.code-workspace
