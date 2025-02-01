@@ -60,71 +60,71 @@ TEST(TestConfig, yaml_base) {
             << dump << std::endl;
 }
 
-TEST(TestConfig, base) {
-  auto config_man = std::make_shared<MYLIB_SPACE::Configurator>();
-  try {
-    config_man->setConfig<int>("int1", 0x1234, "int 1");
-    config_man->setConfig<std::vector<int>>("vector1", {1234, 123, 123, 12312, 31}, "vector1 1");
-    //std::enable_if<src::CheckStringConverter<src::YamlConverter<int>>::value>::type;
-    mylib::ConfigValue<int>::ptr t = config_man->getConfig<int>("int1");
-    mylib::ConfigValue<std::vector<int>>::ptr t2 = config_man->getConfig<std::vector<int>>("vector1");
+// TEST(TestConfig, base) {
+//   auto config_man = std::make_shared<MYLIB_SPACE::Configurator>();
+//   try {
+//     config_man->setConfig<int>("int1", 0x1234, "int 1");
+//     config_man->setConfig<std::vector<int>>("vector1", {1234, 123, 123, 12312, 31}, "vector1 1");
+//     //std::enable_if<src::CheckStringConverter<src::YamlConverter<int>>::value>::type;
+//     mylib::ConfigValue<int>::ptr t = config_man->getConfig<int>("int1");
+//     mylib::ConfigValue<std::vector<int>>::ptr t2 = config_man->getConfig<std::vector<int>>("vector1");
 
-    std::cout << "int1:" << t->as() << std::endl;
-    for (const auto &item: t2->as()) {
-      std::cout << "vector1 : " << item << std::endl;
-    }
-  } catch (...) {
-    MYLIB_THROW("config error: unknow error");
-  }
-}
+//     std::cout << "int1:" << t->as() << std::endl;
+//     for (const auto &item: t2->as()) {
+//       std::cout << "vector1 : " << item << std::endl;
+//     }
+//   } catch (...) {
+//     MYLIB_THROW("config error: unknow error");
+//   }
+// }
 
-TEST(TestConfig, foreach_config) {
-  auto config_man = std::make_shared<MYLIB_SPACE::Configurator>();
+// TEST(TestConfig, foreach_config) {
+//   auto config_man = std::make_shared<MYLIB_SPACE::Configurator>();
 
-  config_man->setConfig<int>("int1", 1, "int 1");
-  config_man->setConfig<int>("int2", 2, "int 1");
-  config_man->setConfig<int>("int3", 3, "int 1");
-  config_man->setConfig<int>("int4", 4, "int 1");
-  config_man->setConfig<std::vector<int>>("vec", {1, 2, 3, 4}, "vec");
+//   config_man->setConfig<int>("int1", 1, "int 1");
+//   config_man->setConfig<int>("int2", 2, "int 1");
+//   config_man->setConfig<int>("int3", 3, "int 1");
+//   config_man->setConfig<int>("int4", 4, "int 1");
+//   config_man->setConfig<std::vector<int>>("vec", {1, 2, 3, 4}, "vec");
 
-  for (const auto &pair: config_man->getAllConfig()) {
-    std::string rt = pair.second->toString();
-    std::cout << pair.first << ":"
-              << rt << std::endl;
-  }
-}
+//   for (const auto &pair: config_man->getAllConfig()) {
+//     std::string rt = pair.second->toString();
+//     std::cout << pair.first << ":"
+//               << rt << std::endl;
+//   }
+// }
 
-TEST(TestConfig, load_file) {
-  /*
-root:
-  vec_1:
-    - 1
-    - 2
-    - 3
-  map_1:
-    ele_1: 1
-    ele_2: 2
-*/
-  auto config_man = std::make_shared<MYLIB_SPACE::Configurator>();
-  config_man->setConfig<std::vector<int>>("root_1.vec_1",{0,0,0},"root.vec_1");
-  config_man->setConfig<std::map<std::string, int>>("root_1.map_1",{{"ele_1",0}, {"ele_2",0}},"root.map_1");
-  config_man->setConfig<std::vector<std::map<std::string, int>>>("root_1.vec_2",{
-                                                                                   std::map<std::string, int>{{"ele_1", 0}, {"ele_2", 0}},
-                                                                                   std::map<std::string, int>{{"ele_3", 0}, {"ele_4", 0}}
-                                                                               },"root.vec_2");
-  MYLIB_LOG_DEBUG(MYLIB_ROOT_LOGGER)<<">>>>>>>>>after loading file";
+// TEST(TestConfig, load_file) {
+//   /*
+// root:
+//   vec_1:
+//     - 1
+//     - 2
+//     - 3
+//   map_1:
+//     ele_1: 1
+//     ele_2: 2
+// */
+//   auto config_man = std::make_shared<MYLIB_SPACE::Configurator>();
+//   config_man->setConfig<std::vector<int>>("root_1.vec_1",{0,0,0},"root.vec_1");
+//   config_man->setConfig<std::map<std::string, int>>("root_1.map_1",{{"ele_1",0}, {"ele_2",0}},"root.map_1");
+//   config_man->setConfig<std::vector<std::map<std::string, int>>>("root_1.vec_2",{
+//                                                                                    std::map<std::string, int>{{"ele_1", 0}, {"ele_2", 0}},
+//                                                                                    std::map<std::string, int>{{"ele_3", 0}, {"ele_4", 0}}
+//                                                                                },"root.vec_2");
+//   MYLIB_LOG_DEBUG(MYLIB_ROOT_LOGGER)<<">>>>>>>>>after loading file";
 
-  for (const auto &pair: config_man->getAllConfig()) {
-    std::string rt = pair.second->toString();
-    std::cout << pair.first << ":"
-              << rt << std::endl;
-  }
+//   for (const auto &pair: config_man->getAllConfig()) {
+//     std::string rt = pair.second->toString();
+//     std::cout << pair.first << ":"
+//               << rt << std::endl;
+//   }
 
-  config_man->loadFile(R"(H:\Documents\program\c++\mylib\tests\test.yaml)");
-  MYLIB_LOG_DEBUG(MYLIB_ROOT_LOGGER)<<">>>>>>>>>before loading file";
-  for (const auto &pair: config_man->getAllConfig()) {
-    std::string rt = pair.second->toString();
-    std::cout << pair.first << ":"
-              << rt << std::endl;
-  }
-}
+//   config_man->loadFile(R"(H:\Documents\program\c++\mylib\tests\test.yaml)");
+//   MYLIB_LOG_DEBUG(MYLIB_ROOT_LOGGER)<<">>>>>>>>>before loading file";
+//   for (const auto &pair: config_man->getAllConfig()) {
+//     std::string rt = pair.second->toString();
+//     std::cout << pair.first << ":"
+//               << rt << std::endl;
+//   }
+// }

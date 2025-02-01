@@ -5,6 +5,6 @@
 #ifndef MYLIB_LOG_H
 #define MYLIB_LOG_H
 
-#include "log/logger_manager.h"
+#include "log/log_manager.h"
 
 #endif//MYLIB_LOG_H

@@ -27,9 +27,9 @@
 
 // 用于判断系统类型
 #ifdef _WIN32
-#define MYLIB_WINDOWS 1
+#define MYLIB_WINDOWS _WIN32
 #elif linux
-#define MYLIB_LINUX 1
+#define MYLIB_LINUX linux
 #endif// _WIN32
 
 // 用于判断包含的包
@@ -38,13 +38,15 @@
 #define MYLIB_EXCEPTION_LIB 0x4
 #define MYLIB_THREAD_LIB 0x8
 #define MYLIB_SCHEDULE_LIB 0x10
-#define USE_
-#ifdef _DEBUG
+
+
+#if _DEBUG
 #define MYLIB_DEBUG 0x1
 #else
 #define MYLIB_RELEASE 0x1
 #endif// _DEBUG
 
+#define MYLIB_CONSTEXPR_TYPE constexpr static auto
 
 MYLIB_BEGIN
 
@@ -71,6 +73,17 @@ using SString  = std::stringstream;
 
 using time_t   = ::time_t;//时间戳类型
 using tid_t	   = unsigned long;
+
+// tid_t thread_id;	  //线程id
+// cid_t coroutine_id;	  //协程id
+// String thread_name;	  //线程名
+// String coroutine_name;//协程名
+
+thread_local static tid_t CURRENT_THREAD_ID		  = 0;
+thread_local static cid_t CURRENT_COROUTINE_ID	  = 0;
+thread_local static String CURRENT_THREAD_NAME	  = "";
+thread_local static String CURRENT_COROUTINE_NAME = "";
+
 
 template<class Ty>
 class Singleton {

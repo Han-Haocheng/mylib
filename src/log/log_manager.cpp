@@ -1,4 +1,4 @@
-﻿#include "logger_manager.h"
+﻿#include "log_manager.h"
 
 MYLIB_BEGIN
 
@@ -7,12 +7,12 @@ LoggerManager::ptr LoggerManager::s_instance = nullptr;
 LoggerManager::ptr LoggerManager::GetInstance() {
   if (!s_instance) {
     s_instance = std::make_shared<LoggerManager>();
-    s_instance->add_logger(Logger::RootLogger());
+    s_instance->add_logger(LogService::RootLogger());
   }
   return s_instance;
 }
 
-void LoggerManager::addLogger(const Logger::ptr &logger) {
+void LoggerManager::addLogger(const LogService::ptr &logger) {
   if (!logger || logger->getName().empty()) {
     //TODO: <log>error
     return;
@@ -22,14 +22,14 @@ void LoggerManager::addLogger(const Logger::ptr &logger) {
   m_lock.unlock();
 }
 
-Logger::ptr LoggerManager::addLogger(const String &name, LogEvent::value_type level, LogFormatter::ptr formatter) {
+LogService::ptr LoggerManager::addLogger(const String &name, LogEvent::Level level, LogFormatter::ptr formatter) {
   if (name.empty())
     return nullptr;
 
   auto fmt = formatter ? std::move(formatter) : m_def_formatter;
-  Logger::ptr logger = std::make_shared<Logger>(name,
+  LogService::ptr logger = std::make_shared<LogService>(name,
                                                 level == LogEvent::LE_UNDEFINED
-                                                    ? Logger::DEF_LEVEL
+                                                    ? LogService::DEF_LEVEL
                                                     : level,
                                                 fmt);
 
@@ -39,7 +39,7 @@ Logger::ptr LoggerManager::addLogger(const String &name, LogEvent::value_type le
   return logger;
 }
 
-Logger::ptr LoggerManager::getLogger(const String &name) {
+LogService::ptr LoggerManager::getLogger(const String &name) {
   if (name.empty()) {
     //TODO: <log>error
     return nullptr;
@@ -50,16 +50,16 @@ Logger::ptr LoggerManager::getLogger(const String &name) {
   return res;
 }
 
-Logger::ptr LoggerManager::try_getLogger(const String &name) {
+LogService::ptr LoggerManager::try_getLogger(const String &name) {
   if (name.empty()) {
     //TODO: <log>error
     return nullptr;
   }
   m_lock.lock();
-  Logger::ptr log = get_logger(name);
+  LogService::ptr log = get_logger(name);
   m_lock.unlock();
   if (!log) {
-    log = std::make_shared<Logger>(name, Logger::DEF_LEVEL, LogFormatter::DEF_FORMATTER());
+    log = std::make_shared<LogService>(name, LogService::DEF_LEVEL, LogFormatter::DEF_FORMATTER());
     m_lock.lock();
     add_logger(log);
     m_lock.unlock();
@@ -67,14 +67,14 @@ Logger::ptr LoggerManager::try_getLogger(const String &name) {
   return log;
 }
 
-void LoggerManager::add_logger(const Logger::ptr &logger) {
+void LoggerManager::add_logger(const LogService::ptr &logger) {
   auto is_res = m_loggers.insert(std::make_pair(logger->getName(), logger));
   if (!is_res.second) {
     is_res.first->second = logger;
   }
 }
 
-Logger::ptr LoggerManager::get_logger(const String &name) {
+LogService::ptr LoggerManager::get_logger(const String &name) {
   auto fd_res = m_loggers.find(name);
   if (fd_res == m_loggers.end()) {
     return nullptr;

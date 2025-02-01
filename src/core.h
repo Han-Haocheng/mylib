@@ -4,7 +4,6 @@
 
 #include "core/algorithm.h"
 #include "core/define.h"
-
 #include "core/exception.h"
 
 

@@ -29,45 +29,38 @@ public:
 
 	bool loadFile(const String &filename);
 	bool saveFile(const String &file, FileType file_type = FT_JSON);
-	template<class Ty>
-	bool setConfig(String name, const Ty &conf, const String &comment = "");
-	bool setConfig(String name, const ConfigValueBasic::ptr &conf);
+
+	void setConfig(ConfigValueBasic::ptr conf);
+	ConfigValueBasic::ptr getConfig(const String &key);
 
 	template<class Ty>
-	typename ConfigValue<Ty>::ptr getConfig(const String &key);
+	void setConfig(String name, const Ty &conf, const String &comment = "") {
+		MYLIB_TRY_THROW(name.empty(), "config error: name do not exist or is empty");
+
+		MYLIB_TRY_CATCH_BEGIN
+		setConfig(name, std::make_shared<ConfigValue<Ty>>(std::move(name), conf, comment));
+		MYLIB_TRY_CATCH_END("config error")
+	}
+
+	template<class Ty>
+	typename ConfigValue<Ty>::ptr getConfig(const String &key) {
+		MYLIB_TRY_THROW(key.empty(), "config error: key is empty when get config.");
+		
+		MYLIB_TRY_CATCH_BEGIN
+		return std::dynamic_pointer_cast<ConfigValue<Ty>>(getConfig(key));
+		MYLIB_TRY_CATCH_END("config error")
+	}
+
 	bool delConfig(const String &key);
 	[[nodiscard]] const auto &getAllConfig() const { return m_configurators; }
 
 private:
 	void analysis_yaml(const YAML::Node &rootNode);
 	void analysis_json(const String &json);
-	ConfigValueBasic::ptr get_config_val_base(const String &key);
 	bool conversion_yaml(std::ofstream &ofs);
 
 	std::unordered_map<String, ConfigValueBasic::ptr> m_configurators;
 };
-template<class Ty>
-bool Configurator::setConfig(String name, const Ty &conf, const String &comment) {
-	const auto fd_rt			= m_configurators.find(name);
-	ConfigValueBasic::ptr value = std::make_shared<ConfigValue<Ty>>(name, conf, comment);
-	if (fd_rt == m_configurators.end()) {
-		m_configurators.emplace(name, value);
-	} else {
-		fd_rt->second = value;
-	}
-	return true;
-}
-template<class Ty>
-typename ConfigValue<Ty>::ptr Configurator::getConfig(const String &key) {
-	if (key.empty()) {
-		return nullptr;
-	}
-	const auto rt = get_config_val_base(key);
-	return std::dynamic_pointer_cast<ConfigValue<Ty>>(rt);
-}
-
-//======================================================================================
-
 
 MYLIB_END
 

@@ -6,7 +6,7 @@ file(TO_CMAKE_PATH "$ENV{VCPKG_ROOT}" VCPKG_ROOT)
 ## 设置CMake工具链文件，用于vcpkg包管理器
 set(CMAKE_TOOLCHAIN_FILE "${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake")
 # 打印工具链文件的路径
-message(STATUS ">>>>>>>${CMAKE_TOOLCHAIN_FILE}")
+message( ">> 工具文件路径：${CMAKE_TOOLCHAIN_FILE}")
 
 set(VCPKG_TARGET_TRIPLET "x64-mingw-static" CACHE STRING "")
 #set(VCPKG_TARGET_TRIPLET "x64-windows" CACHE STRING "")
@@ -21,51 +21,55 @@ include(cmake/initialize_module.cmake)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMAKE_CXX_EXTENSIONS False)
+message( ">> 环境")
 
 # 如果是MSVC编译器，则添加编译器标志以禁用特定警告
-message(STATUS "C编译器：${CMAKE_C_COMPILER_ID}" )
-message(STATUS "系统：${CMAKE_SYSTEM_NAME}")
-message(STATUS "C++编译器：${CMAKE_CXX_COMPILER_ID}" )
-
-if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /wd4819")
-endif ()
-
+message( "\t\t系统：${CMAKE_SYSTEM_NAME}")
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
     add_definitions(-D_WIN32_WINNT=0x0600)
 endif()
+message( "\t\tC编译器：${CMAKE_C_COMPILER_ID}" )
+if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /wd4819")
+endif ()
+message( "\t\tC++编译器：${CMAKE_CXX_COMPILER_ID}" )
+message( "\t\t配置：${CMAKE_BUILD_TYPE}" )
+if(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
+    add_definitions(-D_DEBUG=1)
+endif()
+
+message( ">> 第三方库")
 
 find_package(Boost CONFIG REQUIRED COMPONENTS lexical_cast)
 if(Boost_FOUND)
-    message(STATUS "√ Boost")
+    message( "\t\t√ Boost")
 else()
     message(FATAL_ERROR "× Boost")
 endif()
 
 find_package(yaml-cpp CONFIG REQUIRED)
 if(yaml-cpp_FOUND)
-    message(STATUS "√ yaml-cpp")
+    message( "\t\t√ yaml-cpp")
 else()
     message(FATAL_ERROR "× yaml-cpp")
 endif()
 
 find_package(jsoncpp CONFIG REQUIRED)
 if(jsoncpp_FOUND)
-    message(STATUS "√ jsoncpp")
+    message( "\t\t√ jsoncpp")
 else()
     message(FATAL_ERROR "× jsoncpp")
 endif()
 
 find_package(GTest CONFIG REQUIRED)
 if(GTest_FOUND)
-    message(STATUS "√ GTest")
+    message( "\t\t√ GTest")
 else()
     message(FATAL_ERROR "× GTest")
 endif()
 
 
 set(PROJECT_MODEL_LIST CACHE INTERNAL "${PROJECT_NAME} model list")
-
 
 ## 添加子目录，构建mylib/core
 #add_subdirectory(src/core)

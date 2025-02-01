@@ -3,7 +3,7 @@
 
 MYLIB_BEGIN
 
-static const Logger::ptr s_logger = MYLIB_ROOT_LOGGER;
+static const LogService::ptr s_logger = MYLIB_ROOT_LOGGER;
 
 thread_local coroutine_t Coroutine::t_main_coroutine;
 thread_local coroutine_t *Coroutine::t_current_coroutine = nullptr;

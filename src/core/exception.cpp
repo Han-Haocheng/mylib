@@ -18,10 +18,7 @@
 
 MYLIB_BEGIN
 
-ExceptFuncInfo::ExceptFuncInfo() : name(), addr() {}
-ExceptFuncInfo::ExceptFuncInfo(String name, uint64 addr) : name(std::move(name)), addr(addr) {}
-
-bool Exception::CaptureStackBack(std::vector<ExceptFuncInfo> &out, size_t skip, size_t maxStackSize) {
+bool Exception::CaptureStackBack(std::vector<FunctionStackInfo> &out, size_t skip, size_t maxStackSize) {
 #ifdef MYLIB_WINDOWS
 	PVOID *pStackTrace	 = nullptr;
 	PSYMBOL_INFO pSymbol = {};
@@ -74,7 +71,7 @@ bool Exception::CaptureStackBack(std::vector<ExceptFuncInfo> &out, size_t skip, 
 #endif//MYLIB_WINDOWS
 }
 
-Exception::Exception(SourceInfo info, String what)
+Exception::Exception(DebugLocationInfo info, String what)
 #ifdef MYLIB_MSVC
 	: std::exception(what.c_str()),
 #elif MYLIB_GUN

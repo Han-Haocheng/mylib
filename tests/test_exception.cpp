@@ -5,7 +5,7 @@
 #include "include.h"
 
 TEST(TestException, capture_stack_back_trace) {
-  std::vector<MYLIB_SPACE::ExceptFuncInfo> res;
+  std::vector<MYLIB_SPACE::FunctionStackInfo> res;
   MYLIB_SPACE::Exception::CaptureStackBack(res, 0);
   for (auto &info: res) {
     std::cout << info.name << std::endl;
