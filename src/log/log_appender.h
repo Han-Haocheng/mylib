@@ -4,7 +4,6 @@
 #include "log_event.h"
 #include "log_formatter.h"
 
-#include "../task/mutex.h"
 
 
 #include <fstream>
@@ -43,21 +42,6 @@ protected:
 
 template<>
 struct ConversionTraits<String, LogAppender::Type, ConvertType::CT_DEFAULT> {
-	using target_t = LogAppender::Type;
-	using source_t = String;
-	static target_t convert(const source_t &str) {
-		if (str == "console" || str == "CONSOLE") {
-			return LogAppender::Type::LAT_CONSOLE;
-		}
-		if (str == "file" || str == "FILE") {
-			return LogAppender::Type::LAT_FILE;
-		}
-		return LogAppender::Type::LAT_CONSOLE;
-	}
-};
-
-template<>
-struct ConversionTraits<LogAppender::Type, String, ConvertType::CT_DEFAULT> {
 	using target_t = String;
 	using source_t = LogAppender::Type;
 
@@ -70,6 +54,22 @@ struct ConversionTraits<LogAppender::Type, String, ConvertType::CT_DEFAULT> {
 			default:
 				return "console";
 		}
+	}
+};
+
+template<>
+struct ConversionTraits<LogAppender::Type, String, ConvertType::CT_DEFAULT> {
+	using target_t = LogAppender::Type;
+	using source_t = String;
+
+	static target_t convert(const source_t &str) {
+		if (str == "console" || str == "CONSOLE") {
+			return LogAppender::Type::LAT_CONSOLE;
+		}
+		if (str == "file" || str == "FILE") {
+			return LogAppender::Type::LAT_FILE;
+		}
+		return LogAppender::Type::LAT_CONSOLE;
 	}
 };
 

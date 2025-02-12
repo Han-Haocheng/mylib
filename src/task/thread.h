@@ -1,13 +1,9 @@
 ﻿#ifndef MYLIB_THREAD_H_
 #define MYLIB_THREAD_H_
 
-#include "../core.h"
+#include "task_base.h"
 
 #include <functional>
-
-#ifdef MYLIB_WINDOWS
-#include <windows.h>
-#endif// MYLIB_WINDOWS
 
 MYLIB_BEGIN
 

@@ -1,13 +1,9 @@
 ﻿#ifndef MYLIB_LOG_EVENT_H_
 #define MYLIB_LOG_EVENT_H_
 
-#include "../convert/convert.h"
-#include "../convert/type_cast.h"
-#include "../core.h"
-
+#include "LogBase.h"
 
 #include <memory>
-#include <stdexcept>
 #include <unordered_map>
 
 MYLIB_BEGIN
@@ -59,7 +55,7 @@ struct ConversionTraits<String, LogEvent::Level, ConvertType::CT_DEFAULT> {
 	using target_t = String;
 	using source_t = LogEvent::Level;
 
-	target_t convert(const source_t &source) {
+	static target_t convert(const source_t &source) {
 		switch (source) {
 			case source_t::LE_DEBUG:
 				return "debug";
@@ -70,7 +66,7 @@ struct ConversionTraits<String, LogEvent::Level, ConvertType::CT_DEFAULT> {
 			case source_t::LE_ERROR:
 				return "error";
 			default:
-				return "unknown";
+				MYLIB_THROW("log level is undefined");
 		}
 	}
 };
@@ -80,7 +76,8 @@ struct ConversionTraits<LogEvent::Level, String, ConvertType::CT_DEFAULT> {
 	using target_t = LogEvent::Level;
 	using source_t = String;
 
-	target_t convert(const source_t &source) {
+
+	static target_t convert(const source_t &source) {
 		static std::unordered_map<source_t, target_t> s_map{
 #define XX(ABC, Abc, abc) \
 	{"LE_" #ABC, target_t::LE_##ABC}, {#ABC, target_t::LE_##ABC}, {#Abc, target_t::LE_##ABC}, { #abc, target_t::LE_##ABC }
@@ -90,51 +87,49 @@ struct ConversionTraits<LogEvent::Level, String, ConvertType::CT_DEFAULT> {
 				XX(ERROR, Error, error),
 #undef XX
 		};
-
-		MYLIB_TRY_CATCH_BEGIN
-		return s_map.at(source);
+		MYLIB_TRY_CATCH_BEGIN { return s_map.at(source); }
 		MYLIB_TRY_CATCH_END("convert error")
-		return target_t::LE_UNDEFINED;
+		MYLIB_THROW("log level is undefined");
 	}
 };
 
-template<>
-class StringCast<LogEvent::Level> {
-public:
-	using Ty = LogEvent::Level;
+// template<>
+// class StringCast<LogEvent::Level> {
+// public:
+// 	using Ty = LogEvent::Level;
 
-	static String toString(const Ty &ty) {
-		switch (ty) {
-			case Ty::LE_DEBUG:
-				return "Debug";
-			case Ty::LE_INFO:
-				return "Info";
-			case Ty::LE_WARN:
-				return "Warn";
-			case Ty::LE_ERROR:
-				return "Error";
-			default:
-				return "Unknown";
-		}
-	}
+// 	static String toString(const Ty &ty) {
+// 		switch (ty) {
+// 			case Ty::LE_DEBUG:
+// 				return "Debug";
+// 			case Ty::LE_INFO:
+// 				return "Info";
+// 			case Ty::LE_WARN:
+// 				return "Warn";
+// 			case Ty::LE_ERROR:
+// 				return "Error";
+// 			default:
+// 				return "Unknown";
+// 		}
+// 	}
 
-	static Ty fromString(const String &ty) {
-		static std::unordered_map<String, Ty> s_map{
-#define XX(ABC, Abc, abc) \
-	{"LE_" #ABC, Ty::LE_##ABC}, {#ABC, Ty::LE_##ABC}, {#Abc, Ty::LE_##ABC}, { #abc, Ty::LE_##ABC }
-				XX(DEBUG, Debug, debug),
-				XX(INFO, Info, info),
-				XX(WARN, Warn, warn),
-				XX(ERROR, Error, error),
-#undef XX
-		};
-		try {
-			return s_map.at(ty);
-		} catch (std::out_of_range &) {
-			return Ty::LE_UNDEFINED;
-		}
-	}
-};
+// 	static Ty fromString(const String &ty) {
+// 		static std::unordered_map<String, Ty> s_map{
+// #define XX(ABC, Abc, abc) \
+// 	{"LE_" #ABC, Ty::LE_##ABC}, {#ABC, Ty::LE_##ABC}, {#Abc, Ty::LE_##ABC}, { #abc, Ty::LE_##ABC }
+// 				XX(DEBUG, Debug, debug),
+// 				XX(INFO, Info, info),
+// 				XX(WARN, Warn, warn),
+// 				XX(ERROR, Error, error),
+// #undef XX
+// 		};
+// 		try {
+// 			return s_map.at(ty);
+// 		} catch (std::out_of_range &) {
+// 			return Ty::LE_UNDEFINED;
+// 		}
+// 	}
+// };
 
 MYLIB_END
 #endif// !MYLIB_LOG_EVENT_H_

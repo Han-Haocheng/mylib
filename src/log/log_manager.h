@@ -1,9 +1,12 @@
 ﻿#ifndef MYLIB_LOGGER_MANAGER_H
 #define MYLIB_LOGGER_MANAGER_H
 
-#include "../task/mutex.h"
-
+#include "log_config.h"
+#include "log_event.h"
 #include "log_factory.h"
+#include "log_formatter.h"
+#include "log_service.h"
+
 
 #include <memory>
 
@@ -21,27 +24,31 @@
 
 MYLIB_BEGIN
 
-class LoggerManager {
+class LoggerManager : public Singleton<LoggerManager> {
+	friend class Singleton;
+
 public:
 	using ptr  = std::shared_ptr<LoggerManager>;
 	using Lock = Spinlock;
 
-	static ptr GetInstance();
-
-	void addLogger(const LogService::ptr &logger);
-	LogService::ptr addLogger(const String &name, LogEvent::Level level, LogFormatter::ptr formatter);
-	[[nodiscard]] LogService::ptr getLogger(const String &name);
-	[[nodiscard]] LogService::ptr try_getLogger(const String &name);
-
 private:
+	LoggerManager();
+
 	void add_logger(const LogService::ptr &logger);
 	LogService::ptr get_logger(const String &name);
 
+public:
+	void addLogger(const LogService::ptr &logger);
+	LogService::ptr addLogger(const String &name, LogEvent::Level level, LogFormatter::ptr formatter);
+	[[nodiscard]] LogService::ptr logger(const String &name);
+	[[nodiscard]] LogService::ptr try_getLogger(const String &name);
+
+
 private:
 	Lock m_lock;
+	Config<LogConfig>::ptr m_config;
 	LogFormatter::ptr m_def_formatter;
 	std::unordered_map<String, LogService::ptr> m_loggers;
-	static LoggerManager::ptr s_instance;
 };
 
 

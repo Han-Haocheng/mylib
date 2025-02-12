@@ -7,10 +7,7 @@
 #include <utility>
 
 #ifdef MYLIB_WINDOWS
-#include <Windows.h>
-
 #include <DbgHelp.h>
-
 #pragma comment(lib, "DbgHelp.lib")
 #elif MYLIB_LINUX
 

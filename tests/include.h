@@ -6,10 +6,10 @@
 #define MYLIB_SLN_INCLUDE_H
 #include <gtest/gtest.h>
 
-#include "../src/config/Configurator.h"
-#include "../src/core.h"
-#include "../src/log.h"
-#include "../src/task.h"
+#include "../src/config/ConfigManager.h"
+#include "../src/core/core.h"
+#include "../src/log/log.h"
+#include "../src/task/task.h"
 #include "../src/task/thread.h"
 
 

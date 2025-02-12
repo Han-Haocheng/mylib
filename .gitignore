@@ -387,3 +387,4 @@ vcpkg_installed/
 .idea/
 
 *.code-workspace
+.vscode/settings.json

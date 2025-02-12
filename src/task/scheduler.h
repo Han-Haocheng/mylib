@@ -1,13 +1,12 @@
-﻿#pragma once
+﻿#ifndef MYLIB_TASK_SCHEDULER_H_
+#define MYLIB_TASK_SCHEDULER_H_
 
-#include "../task.h"
+#include "task_base.h"
+
 #include "coroutine.h"
 #include "thread.h"
 
-
-#include <forward_list>
 #include <list>
-#include <queue>
 
 MYLIB_BEGIN
 
@@ -98,3 +97,4 @@ private:
 };
 
 MYLIB_END
+#endif // !MYLIB_TASK_SCHEDULER_H_

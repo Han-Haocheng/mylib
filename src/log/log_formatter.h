@@ -1,7 +1,6 @@
 ﻿#ifndef MYLIB_LOG_FORMATTER_H_
 #define MYLIB_LOG_FORMATTER_H_
 
-#include "../task.h"
 
 
 #include "log_event.h"
@@ -89,7 +88,9 @@ class LevelFormatItem : public FormatItem {
 public:
 	using FormatItem::FormatItem;
 	constexpr static const CString FORMAT_STR = "%g";
-	[[nodiscard]] String format(const LogEvent &event) const override { return StringCast<LogEvent::Level>::toString(event.getType()); }
+	[[nodiscard]] String format(const LogEvent &event) const override { 
+		return Convert<String,LogEvent::Level,ConvertType::CT_DEFAULT>(event.getType());
+	}
 };
 
 class ElapseFormatItem : public FormatItem {

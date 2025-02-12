@@ -1,6 +1,5 @@
 ﻿#pragma once
 
-#include "../core.h"
 #include "iterator.h"
 #include <functional>
 

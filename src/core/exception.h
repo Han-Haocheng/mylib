@@ -27,27 +27,26 @@
 	MYLIB_SPACE::DebugTaskInfo { MYLIB_SPACE::CURRENT_THREAD_ID, MYLIB_SPACE::CURRENT_COROUTINE_ID, MYLIB_SPACE::CURRENT_THREAD_NAME, MYLIB_SPACE::CURRENT_COROUTINE_NAME }
 
 #define MYLIB_THROW(what) \
-	throw MYLIB_SPACE::Exception { (MYLIB_DEBUG_LOCATION_INFO), (what) }
+	throw MYLIB_SPACE::Exception((MYLIB_DEBUG_LOCATION_INFO), (what))
 
 #if MYLIB_DEBUG
 #define MYLIB_ASSERT(condition, what) \
-	if (!condition) MYLIB_SPACE::Exception{(MYLIB_DEBUG_LOCATION_INFO), (what)}.show(), exit(-1);
+	if (!condition) MYLIB_SPACE::Exception((MYLIB_DEBUG_LOCATION_INFO), (what)).show(), exit(-1);
 #elif MYLIB_RELEASE
 #define MYLIB_ASSERT(a, what) ;
 #endif
 
 #define MYLIB_TRY_THROW(condition, what) \
 	if (condition) MYLIB_THROW(what)
-#define MYLIB_TRY_CATCH_BEGIN try {
+#define MYLIB_TRY_CATCH_BEGIN try
 
 #define MYLIB_CATCH(type, body) \
-	}                           \
-	catch (type) {              \
-		body
+	catch (const type &e) {     \
+		body                    \
+	}
 
 #define MYLIB_TRY_CATCH_END(error_type)                  \
-	}                                                    \
-	catch (const Exception &e) {                         \
+	catch (const MYLIB_SPACE::Exception &e) {            \
 		e.show();                                        \
 	}                                                    \
 	catch (const std::exception &e) {                    \
@@ -56,6 +55,7 @@
 	catch (...) {                                        \
 		MYLIB_THROW(error_type ": unknow");              \
 	}
+
 
 MYLIB_BEGIN
 

@@ -1,4 +1,4 @@
-﻿#include "Configurator.h"
+﻿#include "ConfigManager.h"
 
 #include <fstream>
 #include <stack>
@@ -8,7 +8,7 @@
 
 MYLIB_BEGIN
 
-bool Configurator::loadFile(const String &filename) {
+bool ConfigManager::loadFile(const String &filename) {
 	try {
 		// 查找最后一个点（`.`）字符的位置
 		size_t dotpos = filename.find_last_of('.');
@@ -35,7 +35,7 @@ bool Configurator::loadFile(const String &filename) {
 	return false;
 }
 
-bool Configurator::saveFile(const String &file, FileType file_type) {
+bool ConfigManager::saveFile(const String &file, FileType file_type) {
 	if (file.empty()) { return false; }
 	std::ofstream ofs{file, std::ios::out};
 	if (!ofs.is_open()) {
@@ -53,18 +53,18 @@ bool Configurator::saveFile(const String &file, FileType file_type) {
 	}
 	return false;
 }
-void Configurator::setConfig(ConfigValueBasic::ptr conf) {
+void ConfigManager::setConfig(ConfigValueBasic::ptr conf) {
 	m_configurators[conf->name()] = std::move(conf);
 }
 
-ConfigValueBasic::ptr Configurator::getConfig(const String &key) {
+ConfigValueBasic::ptr ConfigManager::getConfig(const String &key) {
 
 	auto fd_rt = m_configurators.find(key);
 	if (fd_rt == m_configurators.end()) { return nullptr; }
 	return fd_rt->second;
 }
 
-bool Configurator::delConfig(const String &key) {
+bool ConfigManager::delConfig(const String &key) {
 	if (key.empty()) {
 		return false;
 	}
@@ -77,7 +77,7 @@ bool Configurator::delConfig(const String &key) {
 	return true;
 }
 
-void Configurator::analysis_yaml(const YAML::Node &rootNode) {
+void ConfigManager::analysis_yaml(const YAML::Node &rootNode) {
 	struct AnalysisInfo {
 		YAML::Node node;
 		String base_key;
@@ -106,18 +106,18 @@ void Configurator::analysis_yaml(const YAML::Node &rootNode) {
 	} while (!node_stack.empty());
 }
 
-void Configurator::analysis_json(const String &json) {}
+void ConfigManager::analysis_json(const String &json) {}
 
 
-bool Configurator::conversion_yaml(std::ofstream &ofs) {
+bool ConfigManager::conversion_yaml(std::ofstream &ofs) {
 	YAML::Node out;
 	for (const auto &[key, val]: m_configurators) { out[key] = YAML::Load(val->toString()); }
 	ofs << out;
 	return true;
 }
 
-Configurator::~Configurator() {}
+ConfigManager::~ConfigManager() {}
 
-Configurator::Configurator() : m_configurators() {}
+ConfigManager::ConfigManager() : m_configurators() {}
 
 MYLIB_END

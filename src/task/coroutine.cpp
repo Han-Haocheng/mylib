@@ -1,5 +1,4 @@
 ﻿#include "coroutine.h"
-#include "../log.h"
 
 MYLIB_BEGIN
 
@@ -17,80 +16,48 @@ thread_local coroutine_t *Coroutine::t_current_coroutine = nullptr;
 
 
 template<>
-class StringCast<Coroutine::state_t> {
-public:
-	using cast_type = Coroutine::state_t;
-	using map_type	= std::unordered_map<String, cast_type>;
-	using pair_t	= std::pair<String, cast_type>;
+struct ConversionTraits<String, Coroutine::state_t, ConvertType::CT_DEFAULT> {
+	using target_t = String;
+	using source_t = Coroutine::state_t;
 
-	static String toString(const cast_type &ty) {
-
-		MYLIB_ENUM(a, a, b);
+	static target_t convert(const source_t &ty) {
 		static CString list[] = {
-				"COS_UNDEFINED",
-				"COS_READY",
-				"COS_RUNNING",
-				"COS_SUSPENDED",
-				"COS_TERMINATED",
-				"COS_DEAD",
+				"undefined",
+				"ready",
+				"running",
+				"suspended",
+				"terminated",
+				"dead",
 		};
+
 		constexpr const int NUM = std::size(list);
 
 		return ty < NUM ? list[ty] : "";
 	}
+};
 
-	static cast_type fromString(const String &ty) {
-		//std::transform(ty.begin(), ty.end(), );
-		try {
-			return s_map.at(ty);
-		} catch (const std::out_of_range &oor) {
-			MYLIB_THROW(String{"fromString out of range"} + oor.what());
-		} catch (...) {
-			MYLIB_THROW("fromString unknown error");
-		}
+
+template<>
+struct ConversionTraits<Coroutine::state_t, String, ConvertType::CT_DEFAULT> {
+	using target_t = Coroutine::state_t;
+	using source_t = String;
+
+	static target_t convert(const source_t &ty) {
+		std::map<String, Coroutine::state_t> s_map{
+#define XX(num, name, NAME) \
+	{#num, Coroutine::COS_##NAME}, {"COS_" #NAME, Coroutine::COS_##NAME}, {#name, Coroutine::COS_##NAME}
+				XX(0, undefined, UNDEFINED),
+				XX(1, ready, READY),
+				XX(2, running, RUNNING),
+				XX(4, suspended, SUSPENDED),
+				XX(8, terminated, TERMINATED),
+				XX(16, dead, DEAD),
+#undef XX
+		};
+		return s_map.at(ty);
 	}
-
-private:
-	static map_type s_map;
 };
 
-StringCast<Coroutine::state_t>::map_type StringCast<Coroutine::state_t>::s_map{
-		{"0", Coroutine::COS_UNDEFINED},
-		{"COS_UNDEFINED", Coroutine::COS_UNDEFINED},
-		{"UNDEFINED", Coroutine::COS_UNDEFINED},
-		{"cos_undefined", Coroutine::COS_UNDEFINED},
-		{"undefined", Coroutine::COS_UNDEFINED},
-
-		{"1", Coroutine::COS_READY},
-		{"COS_READY", Coroutine::COS_READY},
-		{"READY", Coroutine::COS_READY},
-		{"cos_ready", Coroutine::COS_READY},
-		{"ready", Coroutine::COS_READY},
-
-		{"2", Coroutine::COS_RUNNING},
-		{"COS_RUNNING", Coroutine::COS_RUNNING},
-		{"RUNNING", Coroutine::COS_RUNNING},
-		{"cos_running", Coroutine::COS_RUNNING},
-		{"running", Coroutine::COS_RUNNING},
-
-		{"4", Coroutine::COS_SUSPENDED},
-		{"COS_UNDEFINED", Coroutine::COS_SUSPENDED},
-		{"UNDEFINED", Coroutine::COS_SUSPENDED},
-		{"cos_undefined", Coroutine::COS_SUSPENDED},
-		{"undefined", Coroutine::COS_SUSPENDED},
-
-		{"8", Coroutine::COS_TERMINATED},
-		{"COS_TERMINATED", Coroutine::COS_TERMINATED},
-		{"TERMINATED", Coroutine::COS_TERMINATED},
-		{"cos_terminated", Coroutine::COS_TERMINATED},
-		{"terminated", Coroutine::COS_TERMINATED},
-
-		{"16", Coroutine::COS_DEAD},
-		{"COS_DEAD", Coroutine::COS_DEAD},
-		{"DEAD", Coroutine::COS_DEAD},
-		{"cos_dead", Coroutine::COS_DEAD},
-		{"dead", Coroutine::COS_DEAD},
-};
 
 Coroutine::Coroutine(cid_t cid, function_t cb, const size_type stack_size)
 	: m_cid(cid),
@@ -128,7 +95,9 @@ void Coroutine::yield() {
 }
 
 void Coroutine::resume() {
-	if (m_state & ~(COS_READY | COS_SUSPENDED)) { MYLIB_THROW(String("The current state of coroutine is") + StringCast<Coroutine::state_t>::toString(m_state)); }
+	if (m_state & ~(COS_READY | COS_SUSPENDED)) {
+		MYLIB_THROW(String("The current state of coroutine is") + ToString<Coroutine::state_t>(m_state));
+	}
 
 	if (t_current_coroutine != &t_main_coroutine) {
 		//todo error

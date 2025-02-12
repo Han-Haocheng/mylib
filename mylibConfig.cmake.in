@@ -11,9 +11,17 @@ include("${CMAKE_CURRENT_LIST_DIR}/@PROJECT_NAME@Targets.cmake")
 set_and_check(@PROJECT_NAME@_INCLUDE_DIRS "${@PROJECT_NAME@_INSTALL_DIR}/include")
 set_and_check(@PROJECT_NAME@_LIBRARIES "${@PROJECT_NAME@_INSTALL_DIR}/lib")
 
-include_directories(${@PROJECT_NAME@_INCLUDE_DIRS})
 
 find_package_handle_standard_args(@PROJECT_NAME@ REQUIRED_VARS @PROJECT_NAME@_LIBRARIES @PROJECT_NAME@_INCLUDE_DIRS)
 
-
 check_required_components(@PROJECT_NAME@)
+
+include(${@PROJECT_NAME@_LIBRARIES}/cmake/@PROJECT_NAME@/initialize_model.cmake)
+include(${@PROJECT_NAME@_LIBRARIES}/cmake/@PROJECT_NAME@/install_modle.cmake)
+include(${@PROJECT_NAME@_LIBRARIES}/cmake/@PROJECT_NAME@/check_packages.cmake)
+include(${@PROJECT_NAME@_LIBRARIES}/cmake/@PROJECT_NAME@/check_environment.cmake)
+
+include_directories(${@PROJECT_NAME@_INCLUDE_DIRS})
+link_directories(${@PROJECT_NAME@_LIBRARIES})
+link_libraries(JsonCpp::JsonCpp yaml-cpp::yaml-cpp DbgHelp Boost::lexical_cast)
+

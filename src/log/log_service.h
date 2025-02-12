@@ -7,7 +7,6 @@
 #include "log_event.h"
 #include "log_formatter.h"
 
-#include "../task/mutex.h"
 
 MYLIB_BEGIN
 

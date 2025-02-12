@@ -1,5 +1,8 @@
-﻿#pragma once
-#include "../core.h"
+﻿
+#ifndef MYLIB_STRUCTURAL_ITERATOR_H_
+#define MYLIB_STRUCTURAL_ITERATOR_H_
+
+#include "StructuralBase.h"
 
 MYLIB_BEGIN
 using ptrdiff_t = long long;
@@ -125,3 +128,4 @@ public:
 };
 
 MYLIB_END
+#endif // !MYLIB_STRUCTURAL_ITERATOR_H_

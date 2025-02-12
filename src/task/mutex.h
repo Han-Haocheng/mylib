@@ -5,7 +5,7 @@
 #ifndef MYLIB_SLN_MUTEX_H
 #define MYLIB_SLN_MUTEX_H
 
-#include "../core.h"
+#include "../core/core.h"
 
 #ifdef MYLIB_WINDOWS
 #include <Windows.h>

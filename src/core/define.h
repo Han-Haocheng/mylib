@@ -1,6 +1,6 @@
 ﻿#ifndef MYLIB_DEF_H_
 #define MYLIB_DEF_H_
-#include <cinttypes>
+
 #include <memory>
 #include <sstream>
 #include <string>
@@ -28,6 +28,7 @@
 // 用于判断系统类型
 #ifdef _WIN32
 #define MYLIB_WINDOWS _WIN32
+#include <Windows.h>
 #elif linux
 #define MYLIB_LINUX linux
 #endif// _WIN32
@@ -89,14 +90,14 @@ template<class Ty>
 class Singleton {
 public:
 	using ptr = std::shared_ptr<Ty>;
-	static ptr getInstance() {
-		if (m_instance == nullptr) {
-			m_instance = new Ty();
-		}
-	}
 
-private:
-	static Ty *m_instance;
+	static ptr GetInstance() {
+		static ptr instance = nullptr;
+		if (instance == nullptr) {
+			instance.reset(new Ty());
+		}
+		return instance;
+	}
 };
 
 MYLIB_END

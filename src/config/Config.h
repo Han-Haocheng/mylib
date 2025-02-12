@@ -1,8 +1,8 @@
 ﻿//
 // Created by HanHaocheng on 2024/6/21.
 //
-#pragma once
-
+#ifndef MYLIB_CONFIG_H
+#define MYLIB_CONFIG_H
 
 #include "../convert/Convert.h"
 
@@ -45,14 +45,14 @@ private:
  * @tparam ConvertTy 转换函数
  */
 template<typename ConfTy, ConvertType ConvertTy = ConvertType::CT_YAML>
-class ConfigValue : public ConfigValueBasic {
+class Config : public ConfigValueBasic {
 public:
 	using value_type = ConfTy;
-	using ptr		 = std::shared_ptr<ConfigValue>;
+	using ptr		 = std::shared_ptr<Config>;
 
-	explicit ConfigValue(String name, value_type &&conf, String comment) : ConfigValueBasic(std::move(name), std::move(comment), typeid(value_type).name()), m_value(std::move(conf)) {}
-	explicit ConfigValue(String name, const value_type &val, String comment) : ConfigValueBasic(std::move(name), std::move(comment), typeid(value_type).name()), m_value(val) {}
-	~ConfigValue() override = default;
+	explicit Config(String name, value_type &&conf, String comment) : ConfigValueBasic(std::move(name), std::move(comment), typeid(value_type).name()), m_value(std::move(conf)) {}
+	explicit Config(String name, const value_type &val, String comment) : ConfigValueBasic(std::move(name), std::move(comment), typeid(value_type).name()), m_value(val) {}
+	~Config() override = default;
 
 	void setValue(value_type &&val) { m_value = val; }
 	void setValue(const value_type &val) { m_value = val; }
@@ -75,10 +75,11 @@ public:
 		return AsType{};
 	}
 
-private:
+protected:
 	value_type m_value;
 };
 
 //=========================================================================================
 
 MYLIB_END
+#endif // !MYLIB_CONFIG_H

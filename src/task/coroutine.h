@@ -1,14 +1,12 @@
 ﻿#ifndef MYLIB_COROUTINE_H
 #define MYLIB_COROUTINE_H
-#include "../core.h"
+
+
+#include "task_base.h"
 
 #include <functional>
 
-#ifdef MYLIB_WINDOWS
-#include <Windows.h>
-#elif MYLIB_LINUX
-#include <ucontext.h>
-#endif// MYLIB_MSVC
+
 
 MYLIB_BEGIN
 

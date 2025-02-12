@@ -2,8 +2,7 @@
 // Created by HanHaocheng on 2024/4/2.
 //
 
-#include "ConfigValue.h"
-#include <type_traits>
+#include "Config.h"
 
 MYLIB_BEGIN
 
