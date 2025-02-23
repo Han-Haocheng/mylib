@@ -12,7 +12,6 @@
 
 MYLIB_BEGIN
 
-
 String FormatClassName(CString fullFuncName);
 extern "C" time_t GetCurrentTimestamp();
 extern "C" constexpr char ToUpper(char c) { return c < 'a' || c > 'z' ? c : (char) (c - 32); }

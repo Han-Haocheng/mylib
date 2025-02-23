@@ -7,6 +7,8 @@ file(TO_CMAKE_PATH "$ENV{VCPKG_ROOT}" VCPKG_ROOT)
 set(CMAKE_TOOLCHAIN_FILE "${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake")
 set(VCPKG_TARGET_TRIPLET "x64-mingw-static" CACHE STRING "")
 #set(VCPKG_TARGET_TRIPLET "x64-windows" CACHE STRING "")
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 
 # 设置项目版本号
 set(mylib_VERSION 0.4.0.20241117)
