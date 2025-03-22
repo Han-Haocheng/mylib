@@ -5,59 +5,59 @@
 #include <string>
 
 TEST(TestConfig, yaml_base) {
-  // 创建一个 YAML 节点
-  YAML::Node node = YAML::Load("[2, 3, 5, 7, 11]");
-  switch (node.Type()) {
-    case YAML::NodeType::Undefined:
-      std::cout << "Undefined" << std::endl;
-      break;
-    case YAML::NodeType::Null:
-      std::cout << "Null" << std::endl;
-      break;
-    case YAML::NodeType::Scalar:
-      std::cout << "Scalar - " << YAML::Dump(node) << std::endl;
-      break;
-    case YAML::NodeType::Sequence:
-      std::cout << node.size() << std::endl;
-      for (size_t i = 0; i < node.size(); ++i) {
-        std::cout << "Sequence - " << YAML::Dump(node) << std::endl;
-      }
+	// 创建一个 YAML 节点
+	YAML::Node node = YAML::Load("[2, 3, 5, 7, 11]");
+	switch (node.Type()) {
+		case YAML::NodeType::Undefined:
+			std::cout << "Undefined" << std::endl;
+			break;
+		case YAML::NodeType::Null:
+			std::cout << "Null" << std::endl;
+			break;
+		case YAML::NodeType::Scalar:
+			std::cout << "Scalar - " << YAML::Dump(node) << std::endl;
+			break;
+		case YAML::NodeType::Sequence:
+			std::cout << node.size() << std::endl;
+			for (size_t i = 0; i < node.size(); ++i) {
+				std::cout << "Sequence - " << YAML::Dump(node) << std::endl;
+			}
 
-      break;
-    case YAML::NodeType::Map:
-      std::cout << "Map - " << YAML::Dump(node) << std::endl;
-      break;
-  }
+			break;
+		case YAML::NodeType::Map:
+			std::cout << "Map - " << YAML::Dump(node) << std::endl;
+			break;
+	}
 
-  node.IsDefined();
-  for (auto child: node) {
-    switch (child.Type()) {
-      case YAML::NodeType::Undefined:
-        std::cout << "Undefined" << std::endl;
-        break;
-      case YAML::NodeType::Null:
-        std::cout << "Null" << std::endl;
-        break;
-      case YAML::NodeType::Scalar:
-        std::cout << "Scalar - " << YAML::Dump(child) << std::endl;
-        break;
-      case YAML::NodeType::Sequence:
-        std::cout << "Sequence - " << YAML::Dump(child) << std::endl;
-        break;
-      case YAML::NodeType::Map:
-        std::cout << "Map - " << YAML::Dump(child) << std::endl;
-        break;
-    }
-  }
+	node.IsDefined();
+	for (auto child: node) {
+		switch (child.Type()) {
+			case YAML::NodeType::Undefined:
+				std::cout << "Undefined" << std::endl;
+				break;
+			case YAML::NodeType::Null:
+				std::cout << "Null" << std::endl;
+				break;
+			case YAML::NodeType::Scalar:
+				std::cout << "Scalar - " << YAML::Dump(child) << std::endl;
+				break;
+			case YAML::NodeType::Sequence:
+				std::cout << "Sequence - " << YAML::Dump(child) << std::endl;
+				break;
+			case YAML::NodeType::Map:
+				std::cout << "Map - " << YAML::Dump(child) << std::endl;
+				break;
+		}
+	}
 
-  // 使用 as<std::string>() 获取节点值的字符串表示
-  auto value = node.as<std::vector<int>>();
-  std::cout << "The value as string: " << value[0] << std::endl;
+	// 使用 as<std::string>() 获取节点值的字符串表示
+	auto value = node.as<std::vector<int>>();
+	std::cout << "The value as string: " << value[0] << std::endl;
 
-  // 使用 YAML::Dump 获取整个节点树的 YAML 格式字符串
-  std::string dump = YAML::Dump(node);
-  std::cout << "The node as YAML:\n"
-            << dump << std::endl;
+	// 使用 YAML::Dump 获取整个节点树的 YAML 格式字符串
+	std::string dump = YAML::Dump(node);
+	std::cout << "The node as YAML:\n"
+			  << dump << std::endl;
 }
 
 // TEST(TestConfig, base) {

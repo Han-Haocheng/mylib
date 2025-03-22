@@ -8,7 +8,13 @@
 #pragma warning(push)
 #pragma warning(disable : 4251)
 #pragma warning(disable : 4275)
+#ifndef YAML_CPP_API
+#define YAML_CPP_API __declspec(dllimport)
+#endif
+
+
 #include <yaml-cpp/yaml.h>
+
 #pragma warning(pop)
 
 

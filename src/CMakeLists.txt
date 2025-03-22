@@ -2,7 +2,7 @@
 
 
 initialize_model(${MODEL_NAME} ".")
-add_library(${MODEL_NAME} STATIC ${MODEL_SOURCES})
+add_library(${MODEL_NAME} STATIC ${MODEL_SOURCES} ${MODEL_HEADERS})
 install_model(${MODEL_NAME})
 
 

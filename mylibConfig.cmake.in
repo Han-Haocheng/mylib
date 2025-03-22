@@ -1,8 +1,8 @@
 ﻿@PACKAGE_INIT@
 find_package(Boost CONFIG REQUIRED COMPONENTS lexical_cast)
-find_package(yaml-cpp CONFIG REQUIRED)
-find_package(jsoncpp CONFIG REQUIRED)
-find_package(GTest CONFIG REQUIRED)
+find_package(Yaml-cpp CONFIG REQUIRED)
+find_package(Jsoncpp CONFIG REQUIRED)
+find_package(Gtest CONFIG REQUIRED)
 
 set(@PROJECT_NAME@_INSTALL_DIR ${CMAKE_CURRENT_LIST_DIR}/../../..)
 
@@ -16,10 +16,14 @@ find_package_handle_standard_args(@PROJECT_NAME@ REQUIRED_VARS @PROJECT_NAME@_LI
 
 check_required_components(@PROJECT_NAME@)
 
-include(${@PROJECT_NAME@_LIBRARIES}/cmake/@PROJECT_NAME@/initialize_model.cmake)
-include(${@PROJECT_NAME@_LIBRARIES}/cmake/@PROJECT_NAME@/install_modle.cmake)
-include(${@PROJECT_NAME@_LIBRARIES}/cmake/@PROJECT_NAME@/check_packages.cmake)
-include(${@PROJECT_NAME@_LIBRARIES}/cmake/@PROJECT_NAME@/check_environment.cmake)
+set(CMAKE_SCRIPTS_DIR "${@PROJECT_NAME@_LIBRARIES}/cmake")
+file(GLOB CMAKE_SCRIPTS "${CMAKE_SCRIPTS_DIR}/*.cmake")
+
+message(">> 包含脚本")
+foreach(SCRIPT ${CMAKE_SCRIPTS})
+    message(STATUS "\t\t ${SCRIPT}")
+    include(${SCRIPT})
+endforeach()
 
 include_directories(${@PROJECT_NAME@_INCLUDE_DIRS})
 link_directories(${@PROJECT_NAME@_LIBRARIES})

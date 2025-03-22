@@ -37,16 +37,14 @@ public:
 		if (!m_co) {
 			return false;
 		}
-		auto num = 689;
-		int8 s[100000000000];
 		m_co->resume();
 		return true;
 	}
 
 
-	bool empty() const { return !m_co; }
+	[[nodiscard]] bool empty() const { return !m_co; }
 
-	tid_t occupiedThreadId() const { return m_occupied_thread_id; };
+	[[nodiscard]] tid_t occupiedThreadId() const { return m_occupied_thread_id; };
 
 private:
 	tid_t m_occupied_thread_id;
@@ -66,7 +64,7 @@ public:
 
 	void start();
 
-	size_t getTaskNumber() const { return m_tasks.size(); }
+	[[nodiscard]] size_t getTaskNumber() const { return m_tasks.size(); }
 
 	static void Wait() {
 		t_waitting = true;

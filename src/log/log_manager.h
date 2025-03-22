@@ -25,7 +25,7 @@
 MYLIB_BEGIN
 
 class LoggerManager : public Singleton<LoggerManager> {
-	friend class Singleton;
+	friend class Singleton<LoggerManager>;
 
 public:
 	using ptr  = std::shared_ptr<LoggerManager>;

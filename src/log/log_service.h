@@ -14,7 +14,7 @@ MYLIB_BEGIN
 
 class LogService {
 public:
-	constexpr static CString ROOT_NAME		   = "root";
+	constexpr static auto ROOT_NAME		   = "root";
 	constexpr static LogEvent::Level DEF_LEVEL = LogEvent::LE_UNDEFINED;
 	using ptr								   = std::shared_ptr<LogService>;
 	using Lock								   = Spinlock;

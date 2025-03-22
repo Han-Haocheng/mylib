@@ -13,7 +13,7 @@ class FormatItem {
 public:
 	using ptr								  = std::shared_ptr<FormatItem>;
 	using FactoryFunc						  = std::function<ptr(String)>;
-	constexpr static const CString FORMAT_STR = "";
+	constexpr static auto FORMAT_STR = "";
 
 	explicit FormatItem(String extendStr) : m_extend(std::move(extendStr)) {}
 	[[nodiscard]] virtual String format(const LogEvent &event) const { return m_extend; }
@@ -46,7 +46,7 @@ protected:
 class LogFormatter {
 public:
 	constexpr static auto DEF_PATTERN =
-			"[%d{%Y/%m/%d %H:%M:%S}][%f:%l][%T.%C - %t.%c] %G(%g)>>>>%m%n";
+			"[%d{%Y/%m/%d %H:%M:%S}][%f:%l][%T.%C - %t.%c] %G(%g)>>>>%m\n";
 
 	using ptr	  = std::shared_ptr<LogFormatter>;
 	using Lock	  = Spinlock;
@@ -80,14 +80,14 @@ private:
 class MessageFormatItem : public FormatItem {
 public:
 	using FormatItem::FormatItem;
-	constexpr static const CString FORMAT_STR = "%m";
+	constexpr static auto FORMAT_STR = "%m";
 	[[nodiscard]] String format(const LogEvent &event) const override { return event.msg().str(); }
 };
 
 class LevelFormatItem : public FormatItem {
 public:
 	using FormatItem::FormatItem;
-	constexpr static const CString FORMAT_STR = "%g";
+	constexpr static auto FORMAT_STR = "%g";
 	[[nodiscard]] String format(const LogEvent &event) const override { 
 		return Convert<String,LogEvent::Level,ConvertType::CT_DEFAULT>(event.getType());
 	}
@@ -96,14 +96,14 @@ public:
 class ElapseFormatItem : public FormatItem {
 public:
 	using FormatItem::FormatItem;
-	constexpr static const CString FORMAT_STR = "%r";
+	constexpr static auto FORMAT_STR = "%r";
 	[[nodiscard]] String format(const LogEvent &event) const override { return "<elapse>"; }
 };
 
 class LoggerNameFormatItem : public FormatItem {
 public:
 	using FormatItem::FormatItem;
-	constexpr static const CString FORMAT_STR = "%G";
+	constexpr static auto FORMAT_STR = "%G";
 
 	[[nodiscard]] String format(const LogEvent &event) const override { return event.getLoggerName(); }
 };
@@ -111,7 +111,7 @@ public:
 class FileFormatItem : public FormatItem {
 public:
 	using FormatItem::FormatItem;
-	constexpr static const CString FORMAT_STR = "%f";
+	constexpr static auto FORMAT_STR = "%f";
 
 	[[nodiscard]] String format(const LogEvent &event) const override { return event.getFile(); }
 };
@@ -119,7 +119,7 @@ public:
 class LineFormatItem : public FormatItem {
 public:
 	using FormatItem::FormatItem;
-	constexpr static const CString FORMAT_STR = "%l";
+	constexpr static auto FORMAT_STR = "%l";
 	[[nodiscard]] String format(const LogEvent &event) const override { return std::to_string(event.getLine()); }
 };
 
@@ -127,7 +127,7 @@ public:
 //时间
 class DateTimeFormatItem : public FormatItem {
 public:
-	constexpr static const CString FORMAT_STR = "%d";
+	constexpr static auto FORMAT_STR = "%d";
 	explicit DateTimeFormatItem(String extendStr = "%Y-%m-%d %H-%M-%S") : FormatItem(std::move(extendStr)) {}
 	[[nodiscard]] String format(const LogEvent &event) const override {
 		char tmp[64];
@@ -146,14 +146,14 @@ public:
 class ThreadIdFormatItem : public FormatItem {
 public:
 	using FormatItem::FormatItem;
-	constexpr static const CString FORMAT_STR = "%t";
+	constexpr static auto FORMAT_STR = "%t";
 	[[nodiscard]] String format(const LogEvent &event) const override { return std::to_string(event.getThreadId()); }
 };
 
 class ThreadNameFormatItem : public FormatItem {
 public:
 	using FormatItem::FormatItem;
-	constexpr static const CString FORMAT_STR = "%T";
+	constexpr static auto FORMAT_STR = "%T";
 
 	[[nodiscard]] String format(const LogEvent &event) const override {
 		String res = event.getThreadName();
@@ -165,14 +165,14 @@ public:
 class CoroutineIdFormatItem : public FormatItem {
 public:
 	using FormatItem::FormatItem;
-	constexpr static const CString FORMAT_STR = "%c";
+	constexpr static auto FORMAT_STR = "%c";
 	[[nodiscard]] String format(const LogEvent &event) const override { return std::to_string(event.getCoroutineId()); }
 };
 
 class CoroutineNameFormatItem : public FormatItem {
 public:
 	using FormatItem::FormatItem;
-	constexpr static const CString FORMAT_STR = "%C";
+	constexpr static auto FORMAT_STR = "%C";
 	[[nodiscard]] String format(const LogEvent &event) const override { return event.getCoroutineName(); }
 };
 MYLIB_END
